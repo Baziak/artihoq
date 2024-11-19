@@ -3,7 +3,7 @@ import './App.css';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import RelationshipLevelSelector from './RelationshipLevelSelector';
 import { Theme } from '@mui/material/styles';
-import { transform } from 'typescript';
+import RequirementInputField from './RequirementInputField';
 
 // TODO list:
 // - local storage
@@ -132,7 +132,9 @@ function App() {
       </TableCell>
     })
     return <TableRow>
-      <TableCell sx={{ ...requirementsCellStyling }}>{qfdData.requirements[rowIndex].name}</TableCell>
+      <TableCell sx={{ ...requirementsCellStyling }}>
+        <RequirementInputField value={qfdData.requirements[rowIndex].name} />
+      </TableCell>
       <TableCell sx={{ ...cellStyling }}></TableCell>
       {cells}
     </TableRow>;
