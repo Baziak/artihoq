@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import RelationshipLevelSelector from './RelationshipLevelSelector';
 import { Theme } from '@mui/material/styles';
 import RequirementInputField from './RequirementInputField';
+import MeasureInputField from './MeasureInputField';
 
 // TODO list:
 // - local storage
@@ -24,13 +25,6 @@ function App() {
     minHeight: 128,
     maxHeight: 256,
     writingMode: 'vertical-rl'
-  }
-
-  const measuresTextStyling = {
-    transform: 'rotate(-90deg)',
-    display: 'block',
-    
-    
   }
 
   const requirementsCellStyling = {
@@ -102,6 +96,16 @@ function App() {
     ]
   });
 
+  const  setMeasureValue = (modifiedRowIndex: number, newValue: string) => {
+    const measures = qfdData.measures.map(
+      (measure, index) => modifiedRowIndex == index ? {...measure, name: newValue} : measure);
+
+    setQfdData({
+      ...qfdData,
+      measures
+    });
+  };
+
   const setRelationshipValue = (modifiedRowIndex: number, modifiedColIndex: number, newValue: number) => {
     const relationshipValues = qfdData.relationshipValues.map(
       (row, rowIndex) => modifiedRowIndex == rowIndex ? row.map(
@@ -118,7 +122,9 @@ function App() {
   const head = <TableRow>
     <TableCell colSpan={2}></TableCell>
     {qfdData.measures.map((measure, index) => 
-      <TableCell sx={measuresCellStyling}>{measure.name}</TableCell>
+      <TableCell sx={measuresCellStyling}>
+        <MeasureInputField value={measure.name} onChange={(newValue) => setMeasureValue(index, newValue)} />
+      </TableCell>
     )}
   </TableRow>
 
