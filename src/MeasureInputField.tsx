@@ -6,6 +6,8 @@ interface MeasureInputFieldProps {
   onChange?: (newValue: string) => void;
 }
 
+// TODO add proper tab and escape key handling, and maybe other ways to finish editing
+
 export default function MeasureInputField({
   value,
   onChange,
@@ -33,29 +35,33 @@ export default function MeasureInputField({
 
   return (
     <>
-    <ClickAwayListener onClickAway={handleClose}>
-    <Box sx={{ position: 'relative' }}>
-        <Box aria-describedby={id} onClick={handleClick} sx={{ whiteSpace: "pre-wrap" }}>
+      <ClickAwayListener onClickAway={handleClose}>
+        <Box sx={{ position: "relative" }}>
+          <Box
+            aria-describedby={id}
+            onClick={handleClick}
+            sx={{ whiteSpace: "pre-wrap" }}
+          >
             {value}
-        </Box>
-      
-        <Popper id={id} open={open} anchorEl={anchorEl}>
-          <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
-            <TextField
-              value={inputValue}
-              onChange={handleChange}
-              variant="outlined"
-              size="small"
-              multiline
-              sx={{
-                "& .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                  padding: 0,
-                },
-              }}
-            />
           </Box>
-        </Popper>
+
+          <Popper id={id} open={open} anchorEl={anchorEl}>
+            <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
+              <TextField
+                value={inputValue}
+                onChange={handleChange}
+                variant="outlined"
+                size="small"
+                multiline
+                sx={{
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    border: "none",
+                    padding: 0,
+                  },
+                }}
+              />
+            </Box>
+          </Popper>
         </Box>
       </ClickAwayListener>
     </>

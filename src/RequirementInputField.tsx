@@ -13,6 +13,10 @@ export default function RequirementInputField({value, onChange}: RequirementInpu
         size="small" 
         multiline 
         onChange={(e) => onChange && onChange(e.target.value)}
-        sx={{ "& .MuiOutlinedInput-notchedOutline": { border: "none", padding: 0 } }} />
+        sx={{ 
+            "& .MuiOutlinedInput-root": { padding: 0 },
+            "& .MuiOutlinedInput-notchedOutline": { border: "none", padding: 0 },
+            "& .MuiOutlinedInput-input": { fontSize: "0.875rem" }
+        }} />
 }
 
