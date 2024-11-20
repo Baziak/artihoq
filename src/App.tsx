@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
 import './App.css';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import RelationshipLevelSelector from './RelationshipLevelSelector';
 import { Theme } from '@mui/material/styles';
 import RequirementInputField from './RequirementInputField';
 import MeasureInputField from './MeasureInputField';
+import {InitialQfdState , QfdState} from './QfdState';
+import useLocalStorage from './useLocalStorage';
 
 // TODO list:
-// - local storage
 // - ctrl+z functionality
 // - export/import from json
 // - requirements groupping
@@ -39,107 +39,68 @@ function App() {
     width: 24,
     textAlign: 'center'
   }
-  
-  
-  // TODO incapsulate this model into a class with a proper validation
-  const [qfdData, setQfdData] = useState({
-    requirements: [
-      {
-        name: 'Requirement 1',
-        importance: 0
-      },
-      {
-        name: 'Requirement 2',
-        importance: 0
-      },
-      {
-        name: 'Requirement 3',
-        importance: 0
-      },
-      {
-        name: 'Requirement 4',
-        importance: 0
-      },
-      {
-        name: 'Requirement 5',
-        importance: 0
-      }
-    ],
-    measures: [
-      {
-        name: 'Measure 1',
-        direction: 0
-      },
-      {
-        name: 'Measure 2',
-        direction: 0
-      },
-      {
-        name: 'Measure 3',
-        direction: 0
-      },
-      {
-        name: 'Measure 4',
-        direction: 0
-      },
-      {
-        name: 'Measure 5',
-        direction: 0
-      }
-    ],
-    relationshipValues: [
-      [0, 3, 0, 1, 0],
-      [1, 1, 0, 0, 0],
-      [2, 0, 2, 1, 0],
-      [1, 2, 3, 1, 0],
-      [0, 3, 1, 0, 2]
-    ]
-  });
 
-  const  setMeasureValue = (modifiedRowIndex: number, newValue: string) => {
-    const measures = qfdData.measures.map(
+  // TODO incapsulate this model into a class with a proper validation
+  const [qfdState, setQfdState] = useLocalStorage<QfdState>("qfdState", InitialQfdState);
+
+  const setMeasureValue = (modifiedRowIndex: number, newValue: string) => {
+    const measures = qfdState.measures.map(
       (measure, index) => modifiedRowIndex == index ? {...measure, name: newValue} : measure);
 
-    setQfdData({
-      ...qfdData,
+    setQfdState({
+      ...qfdState,
       measures
     });
   };
 
+  const setRequirementValue = (modifiedRowIndex: number, newValue: string) => {
+    const requirements = qfdState.requirements.map(
+      (requirement, index) => modifiedRowIndex == index ? {...requirement, name: newValue} : requirement);
+
+    setQfdState({
+      ...qfdState,
+      requirements
+    });
+  };
+
   const setRelationshipValue = (modifiedRowIndex: number, modifiedColIndex: number, newValue: number) => {
-    const relationshipValues = qfdData.relationshipValues.map(
+    const relationshipValues = qfdState.relationshipValues.map(
       (row, rowIndex) => modifiedRowIndex == rowIndex ? row.map(
         (cellValue, colIndex) => modifiedColIndex == colIndex ? newValue : cellValue
       ) : row);
 
     
-    setQfdData({
-      ...qfdData,
+    setQfdState({
+      ...qfdState,
       relationshipValues
     });
   };
 
   const head = <TableRow>
     <TableCell colSpan={2}></TableCell>
-    {qfdData.measures.map((measure, index) => 
-      <TableCell sx={measuresCellStyling}>
+    {qfdState.measures.map((measure, index) => 
+      <TableCell key={qfdState.measures[index].id} sx={measuresCellStyling}>
         <MeasureInputField value={measure.name} onChange={(newValue) => setMeasureValue(index, newValue)} />
       </TableCell>
     )}
   </TableRow>
 
-  let rows: any[] = qfdData.relationshipValues.map((cellValues, rowIndex) => {
+  let rows: any[] = qfdState.relationshipValues.map((cellValues, rowIndex) => {
     let cells: any[] = cellValues.map((value, colIndex) => {
 
-      return <TableCell sx={{ ...relationshipCellStyling }}>
+      const id = qfdState.requirements[rowIndex].id + qfdState.measures[colIndex].id
+
+      return <TableCell key={id} sx={{ ...relationshipCellStyling }}>
         <RelationshipLevelSelector 
           selectedValue={value} 
           onChange={(selectedValue) => setRelationshipValue(rowIndex, colIndex, selectedValue)} />
       </TableCell>
     })
-    return <TableRow>
+    return <TableRow key={qfdState.requirements[rowIndex].id}>
       <TableCell sx={{ ...requirementsCellStyling }}>
-        <RequirementInputField value={qfdData.requirements[rowIndex].name} />
+        <RequirementInputField 
+          value={qfdState.requirements[rowIndex].name} 
+          onChange={(newValue) => setRequirementValue(rowIndex, newValue)} />
       </TableCell>
       <TableCell sx={{ ...cellStyling }}></TableCell>
       {cells}
@@ -156,7 +117,7 @@ function App() {
             {head}
           </TableHead>
           <TableBody>
-              {rows}
+            {rows}
           </TableBody>
         </Table>
       </TableContainer>

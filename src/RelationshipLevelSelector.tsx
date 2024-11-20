@@ -39,7 +39,6 @@ export default function RelationshipLevelSelector({selectedValue, onChange}: Rel
 
   const [levelValue, setLevelValue] = React.useState(selectedValue);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-  // const [open, setOpen] = React.useState(false);
 
   const handleMenuItemClick = (event: React.MouseEvent<HTMLElement>, selectedValue: number) => {
     setLevelValue(selectedValue);
@@ -54,8 +53,6 @@ export default function RelationshipLevelSelector({selectedValue, onChange}: Rel
   };
 
   function showRelationshipSelector(event: React.MouseEvent<HTMLButtonElement>) {
-    // event.currentTarget.style.background = 'red';
-  
     setAnchorEl(event.currentTarget);
   }
 
@@ -63,10 +60,8 @@ export default function RelationshipLevelSelector({selectedValue, onChange}: Rel
     if (event.key === 'Tab') {
       event.preventDefault();
       setAnchorEl(null);
-      // setOpen(false);
     } else if (event.key === 'Escape') {
       setAnchorEl(null);
-      // setOpen(false);
     }
   }
 
@@ -95,7 +90,7 @@ export default function RelationshipLevelSelector({selectedValue, onChange}: Rel
             >
             {Array.from(relationIconMap.entries()).map(([index, item]) => 
               
-                <MenuItem selected={index === levelValue} onClick={(event) => handleMenuItemClick(event, index)}>
+                <MenuItem key={index} selected={index === levelValue} onClick={(event) => handleMenuItemClick(event, index)}>
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText>{item.text}</ListItemText>
                 </MenuItem>
