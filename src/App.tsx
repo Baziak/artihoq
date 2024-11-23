@@ -7,6 +7,7 @@ import Hoq from './Hoq';
 // - requirements groupping
 // - limit requirements and measures
 // - themes
+// - make a common selector component 
 
 function App() {
 

@@ -96,6 +96,15 @@ const Hoq = () => {
     });
   };
 
+  const setRequirementImportance = (modifiedRowIndex: number, newValue: number) => {
+    const requirements = qfdState.requirements.map((requirement, index) =>
+      modifiedRowIndex === index ? { ...requirement, importance: newValue } : requirement
+    );
+
+    setQfdState({ ...qfdState, requirements });
+  };
+
+
   return (
     <TableContainer
       sx={{
@@ -112,6 +121,7 @@ const Hoq = () => {
             setRequirementValue={setRequirementValue}
             addRequirementAt={addRequirementAt}
             removeRequirementAt={removeRequirementAt}
+            setRequirementImportance={setRequirementImportance}
             setRelationshipValue={setRelationshipValue}
           />
         </TableBody>

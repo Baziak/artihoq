@@ -10,10 +10,20 @@ interface HoqHeadProps {
   removeMeasureAt: (rowIndex: number) => void;
 }
 
+const cellStyling = {
+  padding: 1,
+  border: (theme: Theme) => `1px solid ${theme.palette.divider}`,
+  transform: "rotate(180deg)",
+  minHeight: 128,
+  maxHeight: 256,
+  writingMode: "vertical-rl",
+};
+
 const HoqHead = ({ qfdState, setMeasureValue, addMeasureAt, removeMeasureAt }: HoqHeadProps) => {
   return (
     <TableRow>
-      <TableCell colSpan={2}></TableCell>
+      <TableCell></TableCell>
+      <TableCell sx={cellStyling}>User Importance</TableCell>
       {qfdState.measures.map((measure, index) => (
         <HoqMeasurementCell
           key={measure.id}

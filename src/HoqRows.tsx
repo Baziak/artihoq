@@ -5,6 +5,7 @@ import RelationshipLevelSelector from "./RelationshipLevelSelector";
 import RequirementInputField from "./RequirementInputField";
 import HoqRequirementCell from "./HoqRequirementCell";
 import { AddReaction } from "@mui/icons-material";
+import UserImportanceSelector from "./UserImportanceSelector";
 
 const cellStyling = {
   padding: 1,
@@ -22,7 +23,8 @@ interface HoqRowsProps {
   qfdState: QfdState;
   setRequirementValue: (modifiedRowIndex: number, newValue: string) => void;
   setRelationshipValue: (modifiedRowIndex: number, modifiedColIndex: number, newValue: number) => void;
-  addRequirementAt: (rowIndex: number) => void;
+  addRequirementAt: (modifiedRowIndex: number) => void;
+  setRequirementImportance: (modifiedRowIndex: number, newValue: number) => void;
   removeRequirementAt: (rowIndex: number) => void;
 }
 
@@ -31,6 +33,7 @@ const HoqRows = ({
   setRequirementValue,
   setRelationshipValue,
   addRequirementAt,
+  setRequirementImportance,
   removeRequirementAt,
 }: HoqRowsProps) => {
   return (
@@ -44,7 +47,12 @@ const HoqRows = ({
               onAddRequirement={() => addRequirementAt(rowIndex + 1)}
               onRemoveRequirement={() => removeRequirementAt(rowIndex)}
             />
-            <TableCell sx={cellStyling}></TableCell>
+            <TableCell sx={cellStyling}>
+              <UserImportanceSelector
+                selectedValue={qfdState.requirements[rowIndex].importance}
+                onChange={(newValue) => setRequirementImportance(rowIndex, newValue)}
+              />
+            </TableCell>
             {cellValues.map((value, colIndex) => {
               const id = qfdState.requirements[rowIndex].id + qfdState.measures[colIndex].id;
               return (
