@@ -5,6 +5,8 @@ import Hoq from './Hoq';
 // - ctrl+z functionality
 // - export/import from json
 // - requirements groupping
+// - limit requirements and measures
+// - themes
 
 function App() {
 

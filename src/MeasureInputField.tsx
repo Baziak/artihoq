@@ -1,5 +1,6 @@
-import { Box, ClickAwayListener, Popper, TextField } from "@mui/material";
-import React from "react";
+import { Box, ClickAwayListener, Paper, Popper, TextField } from "@mui/material";
+import { setSelectionRange } from "@testing-library/user-event/dist/utils";
+import React, { useEffect, useRef } from "react";
 
 interface MeasureInputFieldProps {
   value: string;
@@ -46,13 +47,14 @@ export default function MeasureInputField({
           </Box>
 
           <Popper id={id} open={open} anchorEl={anchorEl}>
-            <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
+            <Paper>
               <TextField
                 value={inputValue}
                 onChange={handleChange}
                 variant="outlined"
                 size="small"
                 multiline
+                autoFocus // TODO set focus properly on edit, and set edit text cursor position depending on click placement
                 sx={{
                   "& .MuiOutlinedInput-notchedOutline": {
                     border: "none",
@@ -60,7 +62,7 @@ export default function MeasureInputField({
                   },
                 }}
               />
-            </Box>
+            </Paper>
           </Popper>
         </Box>
       </ClickAwayListener>
