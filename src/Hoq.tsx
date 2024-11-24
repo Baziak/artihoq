@@ -42,6 +42,13 @@ const Hoq = () => {
     });
   };
 
+  const setMeasureDirection = (modifiedItemIndex: number, newValue: number) => {
+    const measures = qfdState.measures.map((measure, index) =>
+      index === modifiedItemIndex ? { ...measure, direction: newValue } : measure
+    );
+
+    setQfdState({ ...qfdState, measures });
+  };
 
   const setRequirementValue = (modifiedRowIndex: number, newValue: string) => {
     const requirements = qfdState.requirements.map((requirement, index) =>
@@ -104,7 +111,6 @@ const Hoq = () => {
     setQfdState({ ...qfdState, requirements });
   };
 
-
   return (
     <TableContainer
       sx={{
@@ -113,7 +119,13 @@ const Hoq = () => {
     >
       <Table>
         <TableHead>
-          <HoqHead qfdState={qfdState} setMeasureValue={setMeasureValue} addMeasureAt={addMeasureAt} removeMeasureAt={removeMeasureAt} />
+          <HoqHead
+            qfdState={qfdState}
+            setMeasureValue={setMeasureValue}
+            addMeasureAt={addMeasureAt}
+            removeMeasureAt={removeMeasureAt}
+            setMeasureDirection={setMeasureDirection}
+          />
         </TableHead>
         <TableBody>
           <HoqRows
