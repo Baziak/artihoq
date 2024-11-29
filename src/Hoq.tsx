@@ -21,6 +21,16 @@ const Hoq = () => {
   };
 
   const addMeasureAt = (index: number) => {
+    // insert correlation diagonal row for the new item
+    const technicalCorrelations = [
+      ...qfdState.technicalCorrelations.slice(0, index),
+      Array(qfdState.measures.length - index).fill(0),
+      ...qfdState.technicalCorrelations.slice(index),
+    ].map((row, rowIndex) =>
+      // insert correlation diagonal column before the inserted item
+      rowIndex >= index ? row : [...row.slice(0, index - rowIndex - 1), 0, ...row.slice(index - rowIndex - 1)]
+    );
+
     setQfdState({
       ...qfdState,
       measures: [
@@ -28,6 +38,7 @@ const Hoq = () => {
         { id: crypto.randomUUID(), name: `Measure ${qfdState.measures.length + 1}`, direction: 0 },
         ...qfdState.measures.slice(index),
       ],
+      technicalCorrelations,
       relationshipValues: [
         ...qfdState.relationshipValues.map((row) => [...row.slice(0, index), 0, ...row.slice(index)]),
       ],
@@ -35,9 +46,19 @@ const Hoq = () => {
   };
 
   const removeMeasureAt = (index: number) => {
+    // remove correlation diagonal row for the new item
+    const technicalCorrelations = [
+      ...qfdState.technicalCorrelations.slice(0, index),
+      ...qfdState.technicalCorrelations.slice(index + 1),
+    ].map((row, rowIndex) =>
+      // remove correlation diagonal column before the inserted item
+      rowIndex >= index ? row : [...row.slice(0, index - rowIndex - 1), ...row.slice(index - rowIndex)]
+    );
+
     setQfdState({
       ...qfdState,
       measures: [...qfdState.measures.slice(0, index), ...qfdState.measures.slice(index + 1)],
+      technicalCorrelations,
       relationshipValues: qfdState.relationshipValues.map((row) => [...row.slice(0, index), ...row.slice(index + 1)]),
     });
   };
@@ -48,6 +69,16 @@ const Hoq = () => {
     );
 
     setQfdState({ ...qfdState, measures });
+  };
+
+  const setTechnicalCorrelationValue = (modifiedRowIndex: number, modifiedColIndex: number, newValue: number) => {
+    const technicalCorrelations = qfdState.technicalCorrelations.map((row, rowIndex) =>
+      row.map((cellValue, colIndex) =>
+        modifiedRowIndex === rowIndex && modifiedColIndex === colIndex ? newValue : cellValue
+      )
+    );
+
+    setQfdState({ ...qfdState, technicalCorrelations });
   };
 
   const setRequirementValue = (modifiedRowIndex: number, newValue: string) => {
@@ -125,6 +156,7 @@ const Hoq = () => {
             addMeasureAt={addMeasureAt}
             removeMeasureAt={removeMeasureAt}
             setMeasureDirection={setMeasureDirection}
+            setTechnicalCorrelationValue={setTechnicalCorrelationValue}
           />
         </TableHead>
         <TableBody>

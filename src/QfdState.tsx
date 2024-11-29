@@ -1,6 +1,7 @@
 export interface QfdState {
   requirements: Requirement[];
   measures: Measure[];
+  technicalCorrelations: number[][];
   relationshipValues: number[][];
 }
 
@@ -71,6 +72,12 @@ export const InitialQfdState = {
       name: "Measure 5",
       direction: 0,
     },
+  ],
+  technicalCorrelations: [
+    [0, 0, 0, 0],
+    [0, 0, 0],
+    [0, 0],
+    [0],
   ],
   relationshipValues: [
     [0, 0, 0, 0, 0],
