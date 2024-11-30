@@ -71,7 +71,7 @@ const HoqHead = ({
         ))}
       </TableRow>
       <TableRow>
-        <TableCell></TableCell>
+        <TableCell sx={cellStyling}></TableCell>
         <TableCell sx={measuresCellStyling}>User Importance</TableCell>
         {qfdState.measures.map((measure, index) => (
           <HoqMeasurementCell

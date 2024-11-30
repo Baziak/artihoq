@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 
-function getStorageValue<Type>(key: string, defaultValue: Type) : Type {
+function getStorageValue<Type>(key: string, defaultValue: Type | (() => Type)): Type {
   // getting stored value
   const saved = localStorage.getItem(key);
-  const initial: Type = saved ? JSON.parse(saved) : defaultValue;
-  return initial || defaultValue;
+  const initial: Type = saved ? JSON.parse(saved) : null;
+  return initial || (defaultValue instanceof Function ? defaultValue() : defaultValue);
 }
 
-function useLocalStorage<Type>(key: string, defaultValue: Type) : [Type, Function] {
+function useLocalStorage<Type>(key: string, defaultValue: Type | (() => Type)): [Type, Function] {
   const [value, setValue] = useState(() => {
     return getStorageValue<Type>(key, defaultValue);
   });
@@ -18,6 +18,6 @@ function useLocalStorage<Type>(key: string, defaultValue: Type) : [Type, Functio
   }, [key, value]);
 
   return [value, setValue];
-};
+}
 
 export default useLocalStorage;

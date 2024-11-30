@@ -1,14 +1,15 @@
 import { Table, TableBody, TableContainer, TableHead } from "@mui/material";
 import React from "react";
-import useLocalStorage from "./useLocalStorage";
-import QfdState, { InitialQfdState } from "./QfdState";
+import QfdState from "./QfdState";
 import HoqHead from "./HoqHead";
 import HoqRows from "./HoqRows";
 
-const Hoq = () => {
-  // TODO incapsulate this model into a class with a proper validation
-  const [qfdState, setQfdState] = useLocalStorage<QfdState>("qfdState", InitialQfdState);
+interface HoqProps {
+  qfdState: QfdState;
+  setQfdState: Function;
+}
 
+const Hoq = ({ qfdState, setQfdState }: HoqProps) => {
   const setMeasureValue = (modifiedRowIndex: number, newValue: string) => {
     const measures = qfdState.measures.map((measure, index) =>
       modifiedRowIndex == index ? { ...measure, name: newValue } : measure
