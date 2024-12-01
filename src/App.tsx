@@ -1,9 +1,9 @@
 import "./App.css";
-import Hoq from "./Hoq";
+import Hoq from "./Hoq/Hoq";
 import { Container } from "@mui/material";
 import AppMenuBar from "./AppMenuBar";
-import useLocalStorage from "./useLocalStorage";
-import QfdState, { generateInitialQfdState } from "./QfdState";
+import useLocalStorage from "./Hoq/useLocalStorage";
+import QfdState, { generateInitialQfdState } from "./Hoq/QfdState";
 import { useRef } from "react";
 
 // TODO list:

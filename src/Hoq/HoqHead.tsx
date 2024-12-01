@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TableCell, TableRow, Theme } from "@mui/material";
 import QfdState from "./QfdState";
 import HoqMeasurementCell from "./HoqMeasurementCell";
-import MeasureImprovementDirectionSelector from "./MeasureImprovementDirectionSelector";
+import MeasureImprovementDirectionSelector from "./Inputs/MeasureImprovementDirectionSelector";
 import HoqTechnicalCorrelations from "./HoqTechnicalCorrelations";
 
 interface HoqHeadProps {

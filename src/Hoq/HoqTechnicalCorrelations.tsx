@@ -1,6 +1,6 @@
 import { Box, Table, TableBody, TableCell, TableRow, Theme } from "@mui/material";
 import QfdState from "./QfdState";
-import TechnicalCorrelationSelector from "./TechnicalCorrelationSelector";
+import TechnicalCorrelationSelector from "./Inputs/TechnicalCorrelationSelector";
 
 const cellStyling = {
   padding: 1,

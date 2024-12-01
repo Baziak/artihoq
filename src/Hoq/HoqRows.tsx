@@ -1,11 +1,11 @@
 import React from "react";
 import { Popper, TableCell, TableRow, Theme } from "@mui/material";
 import QfdState from "./QfdState";
-import RelationshipLevelSelector from "./RelationshipLevelSelector";
-import RequirementInputField from "./RequirementInputField";
+import RelationshipLevelSelector from "./Inputs/RelationshipLevelSelector";
+import RequirementInputField from "./Inputs/RequirementInputField";
 import HoqRequirementCell from "./HoqRequirementCell";
 import { AddReaction } from "@mui/icons-material";
-import UserImportanceSelector from "./UserImportanceSelector";
+import UserImportanceSelector from "./Inputs/UserImportanceSelector";
 
 const cellStyling = {
   padding: 1,

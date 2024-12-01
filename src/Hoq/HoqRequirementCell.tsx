@@ -2,7 +2,7 @@ import React from "react";
 import { ButtonGroup, IconButton, Paper, Popper, TableCell, Theme } from "@mui/material";
 import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 import { Requirement } from "./QfdState";
-import RequirementInputField from "./RequirementInputField";
+import RequirementInputField from "./Inputs/RequirementInputField";
 
 const requirementsCellStyling = {
   padding: 1,

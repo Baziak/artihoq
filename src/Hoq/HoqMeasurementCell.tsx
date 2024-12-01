@@ -1,6 +1,6 @@
 import React from "react";
 import { ButtonGroup, IconButton, Paper, Popper, TableCell, Theme } from "@mui/material";
-import MeasureInputField from "./MeasureInputField";
+import MeasureInputField from "./Inputs/MeasureInputField";
 import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 
 const measuresCellStyling = {

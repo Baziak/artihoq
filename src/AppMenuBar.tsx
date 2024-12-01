@@ -11,7 +11,7 @@ import UploadIcon from "@mui/icons-material/FileOpen";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import PrintIcon from "@mui/icons-material/Print";
 import ClearIcon from "@mui/icons-material/Clear";
-import QfdState, { generateInitialQfdState } from "./QfdState";
+import QfdState, { generateInitialQfdState } from "./Hoq/QfdState";
 import { useReactToPrint } from "react-to-print";
 
 interface AppMenuBarProps {
