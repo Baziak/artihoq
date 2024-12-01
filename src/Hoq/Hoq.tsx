@@ -1,8 +1,13 @@
-import { Table, TableBody, TableContainer, TableHead } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import React from "react";
 import QfdState from "./QfdState";
 import HoqHead from "./HoqHead";
 import HoqRows from "./HoqRows";
+import HoqImplementationComplexityRow from "./HoqImplementationComplexityRow";
+import HoqUnitsAndValuesRow from "./HoqUnitsAndValuesRow";
+import HoqEngineerEstimationRows from "./HoqEngineerEstimationRows";
+import HoqAbsoluteImportanceRow from "./HoqAbsoluteImportanceRow";
+import HoqRelativeImportanceRow from "./HoqRelativeImportanceRow";
 
 interface HoqProps {
   qfdState: QfdState;
@@ -169,6 +174,11 @@ const Hoq = ({ qfdState, setQfdState }: HoqProps) => {
             setRequirementImportance={setRequirementImportance}
             setRelationshipValue={setRelationshipValue}
           />
+          <HoqImplementationComplexityRow qfdState={qfdState} />
+          <HoqUnitsAndValuesRow qfdState={qfdState} />
+          <HoqEngineerEstimationRows qfdState={qfdState} />
+          <HoqAbsoluteImportanceRow qfdState={qfdState} />
+          <HoqRelativeImportanceRow qfdState={qfdState} />
         </TableBody>
       </Table>
     </TableContainer>

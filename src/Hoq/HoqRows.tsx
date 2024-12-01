@@ -64,6 +64,9 @@ const HoqRows = ({
                 </TableCell>
               );
             })}
+            {[...Array(5)].map((_, index) => (
+              <TableCell key={index} sx={cellStyling}></TableCell>
+            ))}
           </TableRow>
         );
       })}

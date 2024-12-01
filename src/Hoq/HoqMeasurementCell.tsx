@@ -14,12 +14,13 @@ const measuresCellStyling = {
 
 interface HoqMeasurementCellProps {
   measure: { name: string; id: string };
+  rowSpan: number;
   onChange: (newValue: string) => void;
   onAddMeasure: () => void;
   onRemoveMeasure: () => void;
 }
 
-const HoqMeasurementCell = ({ measure, onChange, onAddMeasure, onRemoveMeasure }: HoqMeasurementCellProps) => {
+const HoqMeasurementCell = ({ measure, rowSpan, onChange, onAddMeasure, onRemoveMeasure }: HoqMeasurementCellProps) => {
   const [hoverBarAnchorEl, setHoverBarAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleHoverToolbarOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -37,7 +38,7 @@ const HoqMeasurementCell = ({ measure, onChange, onAddMeasure, onRemoveMeasure }
   };
 
   return (
-    <TableCell sx={measuresCellStyling} onMouseOver={handleHoverToolbarOpen} onMouseLeave={handleHoverToolbarClose}>
+    <TableCell rowSpan={rowSpan} sx={measuresCellStyling} onMouseOver={handleHoverToolbarOpen} onMouseLeave={handleHoverToolbarClose}>
       <MeasureInputField value={measure.name} onChange={(newValue) => onChange(newValue)} />
       <Popper
         open={Boolean(hoverBarAnchorEl)}

@@ -46,6 +46,8 @@ const HoqHead = ({
     setMeasureCellsWidths(measureCellRefs.map((ref) => (ref.current ? ref.current.offsetWidth : 0)));
   }, [qfdState.measures]);
 
+  const measureRowSpan = 3;
+
   return (
     <>
       <TableRow>
@@ -71,16 +73,34 @@ const HoqHead = ({
         ))}
       </TableRow>
       <TableRow>
-        <TableCell sx={cellStyling}></TableCell>
-        <TableCell sx={measuresCellStyling}>User Importance</TableCell>
+        <TableCell sx={cellStyling} rowSpan={measureRowSpan}></TableCell>
+        <TableCell sx={measuresCellStyling} rowSpan={measureRowSpan}>
+          User Importance
+        </TableCell>
         {qfdState.measures.map((measure, index) => (
           <HoqMeasurementCell
             key={measure.id}
             measure={measure}
+            rowSpan={measureRowSpan}
             onChange={(newValue) => setMeasureValue(index, newValue)}
             onAddMeasure={() => addMeasureAt(index + 1)}
             onRemoveMeasure={() => removeMeasureAt(index)}
           />
+        ))}
+        <TableCell colSpan={5} sx={{ ...cellStyling, height: "1rem", textAlign: "center" }}>
+          User Ratings
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        {[...Array(5)].map((index) => (
+          <TableCell key={index} sx={cellStyling}></TableCell>
+        ))}
+      </TableRow>
+      <TableRow>
+        {[...Array(5)].map((_, index) => (
+          <TableCell key={index} sx={{ ...cellStyling, height: "1rem", textAlign: "center" }}>
+            {index + 1}
+          </TableCell>
         ))}
       </TableRow>
     </>
