@@ -6,8 +6,7 @@ import HoqRows from "./HoqRows";
 import HoqImplementationComplexityRow from "./HoqImplementationComplexityRow";
 import HoqUnitsAndValuesRow from "./HoqUnitsAndValuesRow";
 import HoqEngineerEstimationRows from "./HoqEngineerEstimationRows";
-import HoqAbsoluteImportanceRow from "./HoqAbsoluteImportanceRow";
-import HoqRelativeImportanceRow from "./HoqRelativeImportanceRow";
+import HoqImportanceRows from "./HoqImportanceRows";
 
 interface HoqProps {
   qfdState: QfdState;
@@ -41,7 +40,13 @@ const Hoq = ({ qfdState, setQfdState }: HoqProps) => {
       ...qfdState,
       measures: [
         ...qfdState.measures.slice(0, index),
-        { id: crypto.randomUUID(), name: `Measure ${qfdState.measures.length + 1}`, direction: 0 },
+        {
+          id: crypto.randomUUID(),
+          name: `Measure ${qfdState.measures.length + 1}`,
+          direction: 0,
+          complexity: 1,
+          unit: "",
+        },
         ...qfdState.measures.slice(index),
       ],
       technicalCorrelations,
@@ -115,7 +120,7 @@ const Hoq = ({ qfdState, setQfdState }: HoqProps) => {
     const newRequirement = {
       id: crypto.randomUUID(),
       name: `Requirement ${qfdState.requirements.length + 1}`,
-      importance: 0,
+      importance: 1,
     };
 
     setQfdState({
@@ -154,7 +159,7 @@ const Hoq = ({ qfdState, setQfdState }: HoqProps) => {
     );
 
     setQfdState({ ...qfdState, measures });
-  }
+  };
 
   const setMeasureUnit = (modifiedItemIndex: number, newValue: string) => {
     const measures = qfdState.measures.map((measure, index) =>
@@ -190,11 +195,13 @@ const Hoq = ({ qfdState, setQfdState }: HoqProps) => {
             setRequirementImportance={setRequirementImportance}
             setRelationshipValue={setRelationshipValue}
           />
-          <HoqImplementationComplexityRow qfdState={qfdState} setMeasureImplementationComplexity={setMeasureImplementationComplexity} />
+          <HoqImplementationComplexityRow
+            qfdState={qfdState}
+            setMeasureImplementationComplexity={setMeasureImplementationComplexity}
+          />
           <HoqUnitsAndValuesRow qfdState={qfdState} setMeasureUnit={setMeasureUnit} />
           <HoqEngineerEstimationRows qfdState={qfdState} />
-          <HoqAbsoluteImportanceRow qfdState={qfdState} />
-          <HoqRelativeImportanceRow qfdState={qfdState} />
+          <HoqImportanceRows qfdState={qfdState} />
         </TableBody>
       </Table>
     </TableContainer>
