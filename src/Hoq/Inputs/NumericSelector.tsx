@@ -7,7 +7,7 @@ interface NumericSelectorProps {
 }
 
 const NumericButtonStyling = {
-  minWidth: 0,
+  minWidth: 40,
 };
 
 export default function NumericSelector({

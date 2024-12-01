@@ -148,6 +148,14 @@ const Hoq = ({ qfdState, setQfdState }: HoqProps) => {
     setQfdState({ ...qfdState, requirements });
   };
 
+  const setMeasureImplementationComplexity = (modifiedItemIndex: number, newValue: number) => {
+    const measures = qfdState.measures.map((measure, index) =>
+      index === modifiedItemIndex ? { ...measure, complexity: newValue } : measure
+    );
+
+    setQfdState({ ...qfdState, measures });
+  }
+
   return (
     <TableContainer
       sx={{
@@ -174,7 +182,7 @@ const Hoq = ({ qfdState, setQfdState }: HoqProps) => {
             setRequirementImportance={setRequirementImportance}
             setRelationshipValue={setRelationshipValue}
           />
-          <HoqImplementationComplexityRow qfdState={qfdState} />
+          <HoqImplementationComplexityRow qfdState={qfdState} setMeasureImplementationComplexity={setMeasureImplementationComplexity} />
           <HoqUnitsAndValuesRow qfdState={qfdState} />
           <HoqEngineerEstimationRows qfdState={qfdState} />
           <HoqAbsoluteImportanceRow qfdState={qfdState} />
