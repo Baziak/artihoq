@@ -1,24 +1,24 @@
 import { Button, ClickAwayListener, MenuItem, MenuList, Paper, Popper } from "@mui/material";
 import React from "react";
 
-interface UserImportanceSelectorProps {
+interface NumericSelectorProps {
   selectedValue?: number;
   onChange?: (newValue: number) => void;
 }
 
-const userImportanceButtonStyling = {
+const NumericButtonStyling = {
   minWidth: 0,
 };
 
-export default function UserImportanceSelector({
+export default function NumericSelector({
   selectedValue,
   onChange,
-}: UserImportanceSelectorProps): React.JSX.Element {
-  const [importanceValue, setImportanceValue] = React.useState(selectedValue);
+}: NumericSelectorProps): React.JSX.Element {
+  const [currentValue, setCurrentValue] = React.useState(selectedValue);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   const handleMenuItemClick = (event: React.MouseEvent<HTMLElement>, selectedValue: number) => {
-    setImportanceValue(selectedValue);
+    setCurrentValue(selectedValue);
     setAnchorEl(null);
     if (onChange) {
       onChange(selectedValue);
@@ -29,7 +29,7 @@ export default function UserImportanceSelector({
     setAnchorEl(null);
   };
 
-  function showImportanceSelector(event: React.MouseEvent<HTMLButtonElement>) {
+  function showSelector(event: React.MouseEvent<HTMLButtonElement>) {
     setAnchorEl(event.currentTarget);
   }
 
@@ -46,8 +46,8 @@ export default function UserImportanceSelector({
 
   return (
     <>
-      <Button sx={{ ...userImportanceButtonStyling }} onClick={showImportanceSelector}>
-        {importanceValue}
+      <Button sx={{ ...NumericButtonStyling }} onClick={showSelector}>
+        {currentValue}
       </Button>
       <Popper open={open} anchorEl={anchorEl} placement="bottom-start">
         <Paper>
@@ -58,13 +58,13 @@ export default function UserImportanceSelector({
               aria-labelledby="composition-button"
               onKeyDown={handleListKeyDown}
             >
-              {[1, 2, 3, 4, 5].map((importance) => (
+              {[1, 2, 3, 4, 5].map((value) => (
                 <MenuItem
-                  key={importance}
-                  selected={importance === importanceValue}
-                  onClick={(event) => handleMenuItemClick(event, importance)}
+                  key={value}
+                  selected={value === currentValue}
+                  onClick={(event) => handleMenuItemClick(event, value)}
                 >
-                  {importance}
+                  {value}
                 </MenuItem>
               ))}
             </MenuList>

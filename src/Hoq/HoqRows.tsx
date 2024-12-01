@@ -3,8 +3,8 @@ import { TableCell, TableRow } from "@mui/material";
 import QfdState from "./QfdState";
 import RelationshipLevelSelector from "./Inputs/RelationshipLevelSelector";
 import HoqRequirementCell from "./HoqRequirementCell";
-import UserImportanceSelector from "./Inputs/UserImportanceSelector";
-import { cellStyling, controlCellStyling } from "./styles";
+import NumericSelector from "./Inputs/NumericSelector";
+import { controlCellStyling } from "./styles";
 
 interface HoqRowsProps {
   qfdState: QfdState;
@@ -35,7 +35,7 @@ const HoqRows = ({
               onRemoveRequirement={() => removeRequirementAt(rowIndex)}
             />
             <TableCell sx={controlCellStyling}>
-              <UserImportanceSelector
+              <NumericSelector
                 selectedValue={qfdState.requirements[rowIndex].importance}
                 onChange={(newValue) => setRequirementImportance(rowIndex, newValue)}
               />
