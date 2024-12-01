@@ -19,6 +19,7 @@ interface TechnicalCorrelationSelectorProps {
 
 const buttonStyling = {
   minWidth: 0,
+  padding: 0
 };
 
 export const enum TechnicalCorrelationType {

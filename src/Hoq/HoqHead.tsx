@@ -4,6 +4,7 @@ import QfdState from "./QfdState";
 import HoqMeasurementCell from "./HoqMeasurementCell";
 import MeasureImprovementDirectionSelector from "./Inputs/MeasureImprovementDirectionSelector";
 import HoqTechnicalCorrelations from "./HoqTechnicalCorrelations";
+import { cellStyling, controlCellStyling } from "./styles";
 
 interface HoqHeadProps {
   qfdState: QfdState;
@@ -13,11 +14,6 @@ interface HoqHeadProps {
   setMeasureDirection: (index: number, newValue: number) => void;
   setTechnicalCorrelationValue: (modifiedRowIndex: number, modifiedColIndex: number, newValue: number) => void;
 }
-
-const cellStyling = {
-  padding: 1,
-  border: (theme: Theme) => `1px solid ${theme.palette.divider}`,
-};
 
 const measuresCellStyling = {
   ...cellStyling,
@@ -64,7 +60,7 @@ const HoqHead = ({
         <TableCell sx={cellStyling}>Direction of Improvement</TableCell>
         <TableCell sx={cellStyling}></TableCell>
         {qfdState.measures.map((measure, index) => (
-          <TableCell key={measure.id} sx={{ ...cellStyling, textAlign: "center" }} ref={measureCellRefs[index]}>
+          <TableCell key={measure.id} sx={controlCellStyling} ref={measureCellRefs[index]}>
             <MeasureImprovementDirectionSelector
               selectedValue={measure.direction}
               onChange={(newValue) => setMeasureDirection(index, newValue)}
