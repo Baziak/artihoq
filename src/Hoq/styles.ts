@@ -11,3 +11,9 @@ export const controlCellStyling = {
   width: 40,
   textAlign: "center",
 };
+
+export const verticalCellStyling = {
+  ...cellStyling,
+  transform: "rotate(180deg)",
+  writingMode: "vertical-rl",
+};

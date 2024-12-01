@@ -1,21 +1,22 @@
   import React from "react";
 import { TableCell, TableRow, Theme } from "@mui/material";
+import QfdState from "./QfdState";
+import { cellStyling, verticalCellStyling } from "./styles";
+import VerticalInputField from "./Inputs/VerticalInputField";
 
 interface HoqUnitsAndValuesRowProps {
-  qfdState: any;
+  qfdState: QfdState;
+  setMeasureUnit: (modifiedItemIndex: number, newValue: string) => void;
 }
 
-const cellStyling = {
-  padding: 1,
-  border: (theme: Theme) => `1px solid ${theme.palette.divider}`,
-};
-
-const HoqUnitsAndValuesRow = ({ qfdState }: HoqUnitsAndValuesRowProps) => {
+const HoqUnitsAndValuesRow = ({ qfdState, setMeasureUnit }: HoqUnitsAndValuesRowProps) => {
   return (
     <TableRow>
       <TableCell colSpan={2} sx={cellStyling}>Units & Values</TableCell>
-      {[...Array(qfdState.measures.length)].map((_, index) => (
-        <TableCell key={index} sx={cellStyling}></TableCell>
+      {qfdState.measures.map((measure, index) => (
+        <TableCell key={measure.id} sx={verticalCellStyling}>
+          <VerticalInputField value={measure.unit} onChange={(newValue) => setMeasureUnit(index, newValue)} />
+        </TableCell>
       ))}
     </TableRow>
   );

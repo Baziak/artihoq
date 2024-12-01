@@ -1,18 +1,17 @@
 import { Box, ClickAwayListener, Paper, Popper, TextField } from "@mui/material";
-import { setSelectionRange } from "@testing-library/user-event/dist/utils";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
-interface MeasureInputFieldProps {
+interface VerticalInputFieldProps {
   value: string;
   onChange?: (newValue: string) => void;
 }
 
 // TODO add proper tab and escape key handling, and maybe other ways to finish editing
 
-export default function MeasureInputField({
+export default function VerticalInputField({
   value,
   onChange,
-}: MeasureInputFieldProps): React.JSX.Element {
+}: VerticalInputFieldProps): React.JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [inputValue, setInputValue] = React.useState(value);
 
@@ -41,7 +40,7 @@ export default function MeasureInputField({
           <Box
             aria-describedby={id}
             onClick={handleClick}
-            sx={{ whiteSpace: "pre-wrap" }}
+            sx={{ whiteSpace: "pre-wrap", minWidth: "1.5rem" }}
           >
             {value}
           </Box>

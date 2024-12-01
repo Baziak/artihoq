@@ -4,7 +4,7 @@ import QfdState from "./QfdState";
 import HoqMeasurementCell from "./HoqMeasurementCell";
 import MeasureImprovementDirectionSelector from "./Inputs/MeasureImprovementDirectionSelector";
 import HoqTechnicalCorrelations from "./HoqTechnicalCorrelations";
-import { cellStyling, controlCellStyling } from "./styles";
+import { cellStyling, controlCellStyling, verticalCellStyling } from "./styles";
 
 interface HoqHeadProps {
   qfdState: QfdState;
@@ -14,14 +14,6 @@ interface HoqHeadProps {
   setMeasureDirection: (index: number, newValue: number) => void;
   setTechnicalCorrelationValue: (modifiedRowIndex: number, modifiedColIndex: number, newValue: number) => void;
 }
-
-const measuresCellStyling = {
-  ...cellStyling,
-  transform: "rotate(180deg)",
-  minHeight: 128,
-  maxHeight: 256,
-  writingMode: "vertical-rl",
-};
 
 const HoqHead = ({
   qfdState,
@@ -70,7 +62,7 @@ const HoqHead = ({
       </TableRow>
       <TableRow>
         <TableCell sx={cellStyling} rowSpan={measureRowSpan}></TableCell>
-        <TableCell sx={measuresCellStyling} rowSpan={measureRowSpan}>
+        <TableCell sx={verticalCellStyling} rowSpan={measureRowSpan}>
           User Importance
         </TableCell>
         {qfdState.measures.map((measure, index) => (

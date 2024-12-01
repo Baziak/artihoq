@@ -1,15 +1,13 @@
 import React from "react";
 import { ButtonGroup, IconButton, Paper, Popper, TableCell, Theme } from "@mui/material";
-import MeasureInputField from "./Inputs/MeasureInputField";
+import MeasureInputField from "./Inputs/VerticalInputField";
 import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
+import { verticalCellStyling } from "./styles";
 
 const measuresCellStyling = {
-  padding: 1,
-  border: (theme: Theme) => `1px solid ${theme.palette.divider}`,
-  transform: "rotate(180deg)",
+  ...verticalCellStyling,
   minHeight: 128,
   maxHeight: 256,
-  writingMode: "vertical-rl",
 };
 
 interface HoqMeasurementCellProps {
