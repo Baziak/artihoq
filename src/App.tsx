@@ -4,10 +4,10 @@ import { Container } from "@mui/material";
 import AppMenuBar from "./AppMenuBar";
 import useLocalStorage from "./useLocalStorage";
 import QfdState, { generateInitialQfdState } from "./QfdState";
+import { useRef } from "react";
 
 // TODO list:
 // - ctrl+z functionality
-// - export/import from json
 // - requirements groupping
 // - limit requirements and measures
 // - themes
@@ -16,12 +16,13 @@ import QfdState, { generateInitialQfdState } from "./QfdState";
 function App() {
   // TODO incapsulate this model into a class with a proper validation
   const [qfdState, setQfdState] = useLocalStorage<QfdState>("qfdState", generateInitialQfdState);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="App">
-      <AppMenuBar qfdState={qfdState} setQfdState={setQfdState}  />
-      <Container>
-        <Hoq qfdState={qfdState} setQfdState={setQfdState} />
+      <AppMenuBar qfdState={qfdState} setQfdState={setQfdState} contentRef={contentRef} />
+      <Container ref={contentRef}>
+        <Hoq  qfdState={qfdState} setQfdState={setQfdState} />
       </Container>
     </div>
   );

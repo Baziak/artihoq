@@ -12,14 +12,17 @@ import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import PrintIcon from "@mui/icons-material/Print";
 import ClearIcon from "@mui/icons-material/Clear";
 import QfdState, { generateInitialQfdState } from "./QfdState";
+import { useReactToPrint } from "react-to-print";
 
 interface AppMenuBarProps {
   qfdState: QfdState;
   setQfdState: Function;
+  contentRef: React.RefObject<HTMLDivElement>;
 }
 
-const AppMenuBar = ({ qfdState, setQfdState }: AppMenuBarProps) => {
+const AppMenuBar = ({ qfdState, setQfdState, contentRef }: AppMenuBarProps) => {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const reactToPrintFn = useReactToPrint({ contentRef });
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpenDrawer(newOpen);
@@ -103,11 +106,11 @@ const AppMenuBar = ({ qfdState, setQfdState }: AppMenuBarProps) => {
       </List>
       <List>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => reactToPrintFn()}>
             <ListItemIcon>
               <PrintIcon />
             </ListItemIcon>
-            <ListItemText primary="Print" />
+            <ListItemText primary="Print..." />
           </ListItemButton>
         </ListItem>
       </List>
