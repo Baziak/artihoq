@@ -33,9 +33,9 @@ const HoqImportanceRows = ({ qfdState }: HoqImportanceRowsProps) => {
 
   const totalImportance = relativeImportance.reduce((a, b) => a + b, 0);
 
-  const relativeImportancePercentage = relativeImportance.map(
+  const relativeImportancePercentage = totalImportance ? relativeImportance.map(
     (importance) => Math.round((importance / totalImportance) * 1000) / 10
-  );
+  ) : Array(qfdState.measures.length).fill(0);
 
   // TODO fix cases when the percentage sum is less than 100
   //console.log(relativeImportancePercentage.reduce((a, b) => a + b, 0));
