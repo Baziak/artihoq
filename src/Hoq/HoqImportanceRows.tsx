@@ -1,7 +1,7 @@
 import React from "react";
 import { TableCell, TableRow, Theme } from "@mui/material";
 import QfdState from "./QfdState";
-import { cellStyling } from "./styles";
+import { cellStyling, highlightColor } from "./styles";
 import { text } from "stream/consumers";
 
 interface HoqImportanceRowsProps {
@@ -10,6 +10,7 @@ interface HoqImportanceRowsProps {
 
 const importanceStyling = {
   ...cellStyling,
+  ...highlightColor,
   paddingLeft: 0,
   paddingRight: 0,
   textAlign: "center",
@@ -42,7 +43,7 @@ const HoqImportanceRows = ({ qfdState }: HoqImportanceRowsProps) => {
   return (
     <>
       <TableRow>
-        <TableCell colSpan={2} sx={cellStyling}>
+        <TableCell colSpan={2} sx={{...cellStyling, ...highlightColor}}>
           Absolute Importance
         </TableCell>
         {relativeImportance.map((importance, index) => (
@@ -52,7 +53,7 @@ const HoqImportanceRows = ({ qfdState }: HoqImportanceRowsProps) => {
         ))}
       </TableRow>
       <TableRow>
-        <TableCell colSpan={2} sx={cellStyling}>
+        <TableCell colSpan={2} sx={{...cellStyling, ...highlightColor}}>
           Relative Importance (%)
         </TableCell>
         {relativeImportancePercentage.map((percentage, index) => (

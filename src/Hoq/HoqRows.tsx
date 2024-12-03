@@ -4,7 +4,7 @@ import QfdState from "./QfdState";
 import RelationshipLevelSelector from "./Inputs/RelationshipLevelSelector";
 import HoqRequirementCell from "./HoqRequirementCell";
 import NumericSelector from "./Inputs/NumericSelector";
-import { controlCellStyling } from "./styles";
+import { baseColor, controlCellStyling, focusColor, highlightColor } from "./styles";
 
 interface HoqRowsProps {
   qfdState: QfdState;
@@ -34,7 +34,7 @@ const HoqRows = ({
               onAddRequirement={() => addRequirementAt(rowIndex + 1)}
               onRemoveRequirement={() => removeRequirementAt(rowIndex)}
             />
-            <TableCell sx={controlCellStyling}>
+            <TableCell sx={{...controlCellStyling, ...baseColor}}>
               <NumericSelector
                 selectedValue={qfdState.requirements[rowIndex].importance}
                 onChange={(newValue) => setRequirementImportance(rowIndex, newValue)}
@@ -43,7 +43,7 @@ const HoqRows = ({
             {cellValues.map((value, colIndex) => {
               const id = qfdState.requirements[rowIndex].id + qfdState.measures[colIndex].id;
               return (
-                <TableCell key={id} sx={controlCellStyling}>
+                <TableCell key={id} sx={{...controlCellStyling, ...focusColor}}>
                   <RelationshipLevelSelector
                     selectedValue={value}
                     onChange={(selectedValue) => setRelationshipValue(rowIndex, colIndex, selectedValue)}
@@ -52,7 +52,7 @@ const HoqRows = ({
               );
             })}
             {[...Array(5)].map((_, index) => (
-              <TableCell key={index} sx={controlCellStyling}></TableCell>
+              <TableCell key={index} sx={{...controlCellStyling, ...highlightColor}}></TableCell>
             ))}
           </TableRow>
         );

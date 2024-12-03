@@ -17,3 +17,15 @@ export const verticalCellStyling = {
   transform: "rotate(180deg)",
   writingMode: "vertical-rl",
 };
+
+export const highlightColor = {
+  backgroundColor: "#FFF3E4",
+}
+
+export const focusColor = {
+  backgroundColor: "#FFFFE0",
+}
+
+export const baseColor = {
+  backgroundColor: "#FFF0ED",
+}

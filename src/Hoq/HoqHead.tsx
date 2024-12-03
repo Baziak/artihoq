@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { TableCell, TableRow, Theme } from "@mui/material";
+import { TableCell, TableRow } from "@mui/material";
 import QfdState from "./QfdState";
 import HoqMeasurementCell from "./HoqMeasurementCell";
 import MeasureImprovementDirectionSelector from "./Inputs/MeasureImprovementDirectionSelector";
 import HoqTechnicalCorrelations from "./HoqTechnicalCorrelations";
-import { cellStyling, controlCellStyling, verticalCellStyling } from "./styles";
+import { baseColor, cellStyling, controlCellStyling, highlightColor, verticalCellStyling } from "./styles";
 
 interface HoqHeadProps {
   qfdState: QfdState;
@@ -49,10 +49,10 @@ const HoqHead = ({
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell sx={cellStyling}>Direction of Improvement</TableCell>
-        <TableCell sx={cellStyling}></TableCell>
+        <TableCell sx={{...cellStyling, ...baseColor}}>Direction of Improvement</TableCell>
+        <TableCell sx={{...cellStyling, ...baseColor}}></TableCell>
         {qfdState.measures.map((measure, index) => (
-          <TableCell key={measure.id} sx={controlCellStyling} ref={measureCellRefs[index]}>
+          <TableCell key={measure.id} sx={{...controlCellStyling, ...baseColor}} ref={measureCellRefs[index]}>
             <MeasureImprovementDirectionSelector
               selectedValue={measure.direction}
               onChange={(newValue) => setMeasureDirection(index, newValue)}
@@ -61,8 +61,8 @@ const HoqHead = ({
         ))}
       </TableRow>
       <TableRow>
-        <TableCell sx={cellStyling} rowSpan={measureRowSpan}></TableCell>
-        <TableCell sx={verticalCellStyling} rowSpan={measureRowSpan}>
+        <TableCell sx={{...cellStyling, ...baseColor}} rowSpan={measureRowSpan}></TableCell>
+        <TableCell sx={{...verticalCellStyling, ...baseColor}} rowSpan={measureRowSpan}>
           User Importance
         </TableCell>
         {qfdState.measures.map((measure, index) => (
@@ -75,18 +75,18 @@ const HoqHead = ({
             onRemoveMeasure={() => removeMeasureAt(index)}
           />
         ))}
-        <TableCell colSpan={5} sx={{ ...cellStyling, height: "1rem", textAlign: "center" }}>
+        <TableCell colSpan={5} sx={{ ...cellStyling, ...highlightColor, height: "1rem", textAlign: "center" }}>
           User Ratings
         </TableCell>
       </TableRow>
       <TableRow>
         {[...Array(5)].map((index) => (
-          <TableCell key={index} sx={cellStyling}></TableCell>
+          <TableCell key={index} sx={{...cellStyling, ...highlightColor}}></TableCell>
         ))}
       </TableRow>
       <TableRow>
         {[...Array(5)].map((_, index) => (
-          <TableCell key={index} sx={{ ...cellStyling, height: "1rem", textAlign: "center" }}>
+          <TableCell key={index} sx={{ ...cellStyling, ...highlightColor, height: "1rem", textAlign: "center" }}>
             {index + 1}
           </TableCell>
         ))}

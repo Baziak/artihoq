@@ -2,7 +2,7 @@ import React from "react";
 import { ButtonGroup, IconButton, Paper, Popper, TableCell, Theme } from "@mui/material";
 import MeasureInputField from "./Inputs/VerticalInputField";
 import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
-import { verticalCellStyling } from "./styles";
+import { highlightColor, verticalCellStyling } from "./styles";
 
 const measuresCellStyling = {
   ...verticalCellStyling,
@@ -36,7 +36,7 @@ const HoqMeasurementCell = ({ measure, rowSpan, onChange, onAddMeasure, onRemove
   };
 
   return (
-    <TableCell rowSpan={rowSpan} sx={measuresCellStyling} onMouseOver={handleHoverToolbarOpen} onMouseLeave={handleHoverToolbarClose}>
+    <TableCell rowSpan={rowSpan} sx={{...measuresCellStyling, ...highlightColor}} onMouseOver={handleHoverToolbarOpen} onMouseLeave={handleHoverToolbarClose}>
       <MeasureInputField value={measure.name} onChange={(newValue) => onChange(newValue)} />
       <Popper
         open={Boolean(hoverBarAnchorEl)}

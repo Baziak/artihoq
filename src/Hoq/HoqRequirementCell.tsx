@@ -3,10 +3,11 @@ import { ButtonGroup, IconButton, Paper, Popper, TableCell, Theme } from "@mui/m
 import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 import { Requirement } from "./QfdState";
 import RequirementInputField from "./Inputs/RequirementInputField";
+import { cellStyling, highlightColor } from "./styles";
 
 const requirementsCellStyling = {
-  padding: 1,
-  border: (theme: Theme) => `1px solid ${theme.palette.divider}`,
+  ...cellStyling,
+  ...highlightColor,
   minWidth: 128,
   maxWidth: 256,
 };

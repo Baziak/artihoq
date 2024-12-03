@@ -1,7 +1,7 @@
   import React from "react";
 import { TableCell, TableRow, Theme } from "@mui/material";
 import QfdState from "./QfdState";
-import { cellStyling, verticalCellStyling } from "./styles";
+import { cellStyling, baseColor, verticalCellStyling } from "./styles";
 import VerticalInputField from "./Inputs/VerticalInputField";
 
 interface HoqUnitsAndValuesRowProps {
@@ -12,9 +12,9 @@ interface HoqUnitsAndValuesRowProps {
 const HoqUnitsAndValuesRow = ({ qfdState, setMeasureUnit }: HoqUnitsAndValuesRowProps) => {
   return (
     <TableRow>
-      <TableCell colSpan={2} sx={cellStyling}>Units & Values</TableCell>
+      <TableCell colSpan={2} sx={{...cellStyling, ...baseColor}}>Units & Values</TableCell>
       {qfdState.measures.map((measure, index) => (
-        <TableCell key={measure.id} sx={verticalCellStyling}>
+        <TableCell key={measure.id} sx={{...verticalCellStyling, ...baseColor}}>
           <VerticalInputField value={measure.unit} onChange={(newValue) => setMeasureUnit(index, newValue)} />
         </TableCell>
       ))}

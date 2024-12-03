@@ -2,7 +2,7 @@ import React from "react";
 import { TableCell, TableRow, Theme } from "@mui/material";
 import NumericSelector from "./Inputs/NumericSelector";
 import QfdState from "./QfdState";
-import { cellStyling, controlCellStyling } from "./styles";
+import { baseColor, cellStyling, controlCellStyling } from "./styles";
 
 interface HoqImplementationComplexityRowProps {
   qfdState: QfdState;
@@ -15,11 +15,11 @@ const HoqImplementationComplexityRow = ({
 }: HoqImplementationComplexityRowProps) => {
   return (
     <TableRow>
-      <TableCell colSpan={2} sx={cellStyling}>
+      <TableCell colSpan={2} sx={{...cellStyling, ...baseColor}}>
         Implementation Complexity
       </TableCell>
       {qfdState.measures.map((measure, index) => (
-        <TableCell key={measure.id} sx={controlCellStyling}>
+        <TableCell key={measure.id} sx={{...controlCellStyling, ...baseColor}}>
           <NumericSelector
             selectedValue={measure.complexity}
             onChange={(newValue) => setMeasureImplementationComplexity(index, newValue)}

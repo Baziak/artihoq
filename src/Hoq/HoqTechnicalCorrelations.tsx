@@ -1,6 +1,7 @@
 import { Box, Table, TableBody, TableCell, TableRow, Theme } from "@mui/material";
 import QfdState from "./QfdState";
 import TechnicalCorrelationSelector from "./Inputs/TechnicalCorrelationSelector";
+import { baseColor } from "./styles";
 
 const cellStyling = {
   padding: 1,
@@ -26,6 +27,7 @@ const HoqTechnicalCorrelations = ({
     <Box sx={{ height: measureCellsTotalWidth / 2 + "px", overflow: "hidden" }}>
       <Table
         sx={{
+          ...baseColor,
           transform:
             "rotate(-45deg) translate(0, " +
             measureCellsTotalWidth * 0.5 * (1 / Math.SQRT2 + 1 / Math.SQRT2 - 1) +
