@@ -39,8 +39,8 @@ export default function TechnicalCorrelationSelector({
 
   const directionIconMap = new Map<number, TechnicalCorrelationSelectorItem>([
     [TechnicalCorrelationType.None, { icon: <SvgIcon />, text: "None" }],
-    [TechnicalCorrelationType.Positive, { icon: <AddOutlined />, text: "Negative" }],
-    [TechnicalCorrelationType.Negative, { icon: <RemoveOutlined />, text: "Positive" }],
+    [TechnicalCorrelationType.Positive, { icon: <AddOutlined />, text: "Positive" }],
+    [TechnicalCorrelationType.Negative, { icon: <RemoveOutlined />, text: "Negative" }],
   ]);
 
   const [directionValue, setDirectionValue] = React.useState(selectedValue);
