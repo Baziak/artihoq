@@ -12,6 +12,7 @@ export default function RequirementInputField({value, onChange}: RequirementInpu
         variant="outlined" 
         size="small" 
         multiline 
+        fullWidth
         onChange={(e) => onChange && onChange(e.target.value)}
         sx={{ 
             "& .MuiOutlinedInput-root": { padding: 0 },

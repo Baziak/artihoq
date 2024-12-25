@@ -8,8 +8,8 @@ import { cellStyling, highlightColor } from "./styles";
 const requirementsCellStyling = {
   ...cellStyling,
   ...highlightColor,
-  minWidth: 128,
-  maxWidth: 256,
+  minWidth: 200,
+  maxWidth: 300,
 };
 
 interface HoqRequirementCellProps {

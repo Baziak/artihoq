@@ -173,6 +173,7 @@ const Hoq = ({ qfdState, setQfdState }: HoqProps) => {
     <TableContainer
       sx={{
         width: "max-content",
+        margin: "2em 0"
       }}
     >
       <Table>
