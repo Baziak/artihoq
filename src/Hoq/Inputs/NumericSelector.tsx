@@ -3,6 +3,7 @@ import React from "react";
 
 interface NumericSelectorProps {
   selectedValue?: number;
+  maxValue? : number;
   onChange?: (newValue: number) => void;
 }
 
@@ -12,6 +13,7 @@ const NumericButtonStyling = {
 
 export default function NumericSelector({
   selectedValue,
+  maxValue = 5,
   onChange,
 }: NumericSelectorProps): React.JSX.Element {
   const [currentValue, setCurrentValue] = React.useState(selectedValue);
@@ -58,7 +60,7 @@ export default function NumericSelector({
               aria-labelledby="composition-button"
               onKeyDown={handleListKeyDown}
             >
-              {[1, 2, 3, 4, 5].map((value) => (
+              {Array.from({ length: maxValue }, (_, i) => i + 1).map((value) => (
                 <MenuItem
                   key={value}
                   selected={value === currentValue}
