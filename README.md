@@ -2,6 +2,8 @@
 
 ArtiHoQ is a custom Quality Function Deployment tool designed to simplify the process of creating and analyzing the House of Quality (HoQ) matrix. Built with **React** and **Material UI**, this tool aims to help IT professionals and businesses prioritize technical characteristics and improve service quality effectively.
 
+Here you can try a [demo](https://baziak.github.io/artihoq/).
+
 ## Features
 
 - **House of Quality Builder**: Create and customize HoQ matrices with ease.
