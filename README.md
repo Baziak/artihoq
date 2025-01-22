@@ -1,46 +1,55 @@
-# Getting Started with Create React App
+# ArtiHoQ QFD Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ArtiHoQ is a custom Quality Function Deployment tool designed to simplify the process of creating and analyzing the House of Quality (HoQ) matrix. Built with **React** and **Material UI**, this tool aims to help IT professionals and businesses prioritize technical characteristics and improve service quality effectively.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **House of Quality Builder**: Create and customize HoQ matrices with ease.
+- **Automatic Calculations**: Automatically calculate the importance of technical characteristics.
+- **Data Import/Export**: Export and import HoQ data in JSON format for seamless data sharing and reusability.
+- **Printing Support**: Generate printable versions of the HoQ for presentations and reports.
+- **Intuitive UI**: Built with Material UI for a clean and user-friendly experience.
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Clone the repository:
+```bash
+git clone https://github.com/Baziak/artihoq.git
+cd artihoq
+```
+2. Install dependencies:
+```BASH
+npm install
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+3. Start the development server:
+```bash
+npm start
+```
 
-### `npm test`
+5. Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Usage
+1. Launch the application.
+2. Create or import an HoQ matrix.
+3. Fill in customer requirements, technical characteristics, and their relationships.
+4. Analyze the calculated priorities and export the results as JSON or print for documentation.
 
-### `npm run build`
+## Roadmap
+* Implement competitor analysis part.
+* Add theming support.
+* Add support for multi-language localization.
+* Add Undo/Redo functionality.
+* Add requirement grouping.
+* Add settings to customize HoQ.
+* Refactor to use styled components, and code cleanup.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## License
+This project is licensed under the MIT License.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Acknowledgments
+* Inspired by Quality Function Deployment (QFD) methodology.
+* Thanks to React and Material UI for providing powerful development tools.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contact
+For questions or suggestions, feel free to open an issue or contact the repository owner.
