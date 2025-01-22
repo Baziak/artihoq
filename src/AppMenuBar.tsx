@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, IconButton, styled, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -127,9 +127,11 @@ const AppMenuBar = ({ qfdState, setQfdState, contentRef }: AppMenuBarProps) => {
     </Box>
   );
 
+  const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);  
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar>
         <Toolbar>
           <IconButton
             onClick={toggleDrawer(true)}
@@ -144,11 +146,12 @@ const AppMenuBar = ({ qfdState, setQfdState, contentRef }: AppMenuBarProps) => {
           <Drawer open={openDrawer} onClose={toggleDrawer(false)}>
             {DrawerList}
           </Drawer>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            ArtiHOQ
+          <Typography variant="h6" component="div">
+            ArtiHoQ
           </Typography>
         </Toolbar>
       </AppBar>
+      <Offset />
     </Box>
   );
 };
