@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/artihoq/static/css/main.f855e6bc.css",
+    "main.js": "/artihoq/static/js/main.4ef558e8.js",
+    "static/js/453.0d8f4ecb.chunk.js": "/artihoq/static/js/453.0d8f4ecb.chunk.js",
+    "index.html": "/artihoq/index.html",
+    "main.f855e6bc.css.map": "/artihoq/static/css/main.f855e6bc.css.map",
+    "main.4ef558e8.js.map": "/artihoq/static/js/main.4ef558e8.js.map",
+    "453.0d8f4ecb.chunk.js.map": "/artihoq/static/js/453.0d8f4ecb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.4ef558e8.js"
+  ]
+}
