@@ -11,16 +11,19 @@ import UploadIcon from "@mui/icons-material/FileOpen";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import PrintIcon from "@mui/icons-material/Print";
 import ClearIcon from "@mui/icons-material/Clear";
+import SettingsIcon from "@mui/icons-material/Settings";
 import QfdState, { generateInitialQfdState } from "./Hoq/QfdState";
 import { useReactToPrint } from "react-to-print";
+import SettingsDialog from "./SettingsDialog";
 
 interface AppMenuBarProps {
   qfdState: QfdState;
   setQfdState: Function;
   contentRef: React.RefObject<HTMLDivElement>;
+  setSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AppMenuBar = ({ qfdState, setQfdState, contentRef }: AppMenuBarProps) => {
+const AppMenuBar = ({ qfdState, setQfdState, contentRef, setSettingsOpen }: AppMenuBarProps) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
@@ -121,6 +124,16 @@ const AppMenuBar = ({ qfdState, setQfdState, contentRef }: AppMenuBarProps) => {
               <ClearIcon />
             </ListItemIcon>
             <ListItemText primary="Reset" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => setSettingsOpen(true)}>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Settings" />
           </ListItemButton>
         </ListItem>
       </List>

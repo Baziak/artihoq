@@ -7,13 +7,15 @@ import HoqImplementationComplexityRow from "./HoqImplementationComplexityRow";
 import HoqUnitsAndValuesRow from "./HoqUnitsAndValuesRow";
 import HoqEngineerEstimationRows from "./HoqEngineerEstimationRows";
 import HoqImportanceRows from "./HoqImportanceRows";
+import { Settings } from "../SettingsDialog";
 
 interface HoqProps {
   qfdState: QfdState;
   setQfdState: Function;
+  settings: Settings;
 }
 
-const Hoq = ({ qfdState, setQfdState }: HoqProps) => {
+const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => { 
   const setMeasureValue = (modifiedRowIndex: number, newValue: string) => {
     const measures = qfdState.measures.map((measure, index) =>
       modifiedRowIndex == index ? { ...measure, name: newValue } : measure
@@ -195,6 +197,7 @@ const Hoq = ({ qfdState, setQfdState }: HoqProps) => {
             removeRequirementAt={removeRequirementAt}
             setRequirementImportance={setRequirementImportance}
             setRelationshipValue={setRelationshipValue}
+            settings={settings}
           />
           <HoqImplementationComplexityRow
             qfdState={qfdState}

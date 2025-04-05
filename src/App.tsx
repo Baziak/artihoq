@@ -4,7 +4,8 @@ import { Container } from "@mui/material";
 import AppMenuBar from "./AppMenuBar";
 import useLocalStorage from "./Hoq/useLocalStorage";
 import QfdState, { generateInitialQfdState } from "./Hoq/QfdState";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import SettingsDialog, { Settings, defaultSettings } from "./SettingsDialog";
 
 // TODO list:
 // - ctrl+z functionality
@@ -16,13 +17,17 @@ import { useRef } from "react";
 function App() {
   // TODO incapsulate this model into a class with a proper validation
   const [qfdState, setQfdState] = useLocalStorage<QfdState>("qfdState", generateInitialQfdState);
+  const [settings, setSettings] = useState<Settings>(defaultSettings);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
     <div className="App">
-      <AppMenuBar qfdState={qfdState} setQfdState={setQfdState} contentRef={contentRef} />
+      <AppMenuBar qfdState={qfdState} setQfdState={setQfdState} contentRef={contentRef} setSettingsOpen={setSettingsOpen}/>
       <Container ref={contentRef}>
-        <Hoq  qfdState={qfdState} setQfdState={setQfdState} />
+        <SettingsDialog open={settingsOpen} handleClose={() => setSettingsOpen(false)} settings={settings} setSettings={setSettings}/>
+        <Hoq  qfdState={qfdState} setQfdState={setQfdState} settings={settings}/>
       </Container>
     </div>
   );
