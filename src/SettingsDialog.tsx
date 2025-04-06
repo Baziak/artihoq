@@ -47,14 +47,6 @@ export const defaultSettings: Settings = {
   complexityControl: "select",
 };
 
-export const SettingsContext = React.createContext<{
-  settings: Settings;
-  setSettings: React.Dispatch<React.SetStateAction<Settings>>;
-}>({
-  settings: defaultSettings,
-  setSettings: () => {},
-});
-
 export default function SettingsDialog({ open, handleClose, settings, setSettings }: SettingsDialogProps) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));

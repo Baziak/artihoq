@@ -1,5 +1,4 @@
 export interface QfdState {
-  id: string;
   requirements: Requirement[];
   measures: Measure[];
   technicalCorrelations: number[][];
@@ -23,7 +22,6 @@ export interface Measure {
 // quickstart QFD template
 export const generateInitialQfdState = (): QfdState => {
   return {
-    id: crypto.randomUUID(),
     requirements: [
       {
         id: crypto.randomUUID(),

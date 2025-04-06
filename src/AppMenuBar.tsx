@@ -14,16 +14,18 @@ import ClearIcon from "@mui/icons-material/Clear";
 import SettingsIcon from "@mui/icons-material/Settings";
 import QfdState, { generateInitialQfdState } from "./Hoq/QfdState";
 import { useReactToPrint } from "react-to-print";
-import SettingsDialog from "./SettingsDialog";
+import { defaultSettings } from "./SettingsDialog";
+import Project from "./Hoq/Project";
+import { Dispatch, SetStateAction } from "react";
 
 interface AppMenuBarProps {
-  qfdState: QfdState;
-  setQfdState: Function;
   contentRef: React.RefObject<HTMLDivElement>;
   setSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  project: Project;
+  setProject: Dispatch<SetStateAction<Project>>;
 }
 
-const AppMenuBar = ({ qfdState, setQfdState, contentRef, setSettingsOpen }: AppMenuBarProps) => {
+const AppMenuBar = ({ contentRef, setSettingsOpen, project, setProject }: AppMenuBarProps) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
@@ -34,13 +36,10 @@ const AppMenuBar = ({ qfdState, setQfdState, contentRef, setSettingsOpen }: AppM
   async function getFile() {
     try {
       const [fileHandle] = await (window as any).showOpenFilePicker({
-        types: [
-          {
-          },
-        ],
+        types: [{}],
         multiple: false,
       });
-    
+
       return await fileHandle.getFile();
     } catch (e) {
       console.error(e);
@@ -70,20 +69,40 @@ const AppMenuBar = ({ qfdState, setQfdState, contentRef, setSettingsOpen }: AppM
     }
     const reader = new FileReader();
     reader.onload = async (e) => {
-      const qfdState = JSON.parse(e.target?.result as string);
-      setQfdState(qfdState);
+      try {
+        const importedData = JSON.parse(e.target?.result as string);
+
+        // Check if the imported data is a Project or QfdState
+        if (importedData.version === 1) {
+          // If it's version 1, it's a Project
+          setProject(importedData as Project);
+        } else {
+          // If it doesn't have a version, assume it's an old QfdState
+          setProject((prevProject) => ({
+            ...prevProject,
+            qfdState: importedData as QfdState,
+            version: 1,
+            settings: defaultSettings,
+            id: importedData.id || prevProject.id, // Use imported id if available, otherwise keep the old one
+          }));
+        }
+      } catch (error) {
+        console.error("Error parsing or importing file:", error);
+      }
     };
     reader.readAsText(file);
   };
 
-
   const exportQfdState = () => {
-    saveFile(qfdState.id + '.json', new Blob([JSON.stringify(qfdState, null, 2)], { type: 'application/json' }));
-  }
+    saveFile(project.id + ".json", new Blob([JSON.stringify(project, null, 2)], { type: "application/json" }));
+  };
 
   const resetQfdState = () => {
-    setQfdState(generateInitialQfdState());
-  }
+    setProject((prevProject) => ({
+      ...prevProject,
+      qfdState: generateInitialQfdState(),
+    }));
+  };
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
@@ -140,7 +159,7 @@ const AppMenuBar = ({ qfdState, setQfdState, contentRef, setSettingsOpen }: AppM
     </Box>
   );
 
-  const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);  
+  const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
