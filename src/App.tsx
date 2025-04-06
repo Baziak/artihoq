@@ -17,7 +17,7 @@ import SettingsDialog, { Settings, defaultSettings } from "./SettingsDialog";
 function App() {
   // TODO incapsulate this model into a class with a proper validation
   const [qfdState, setQfdState] = useLocalStorage<QfdState>("qfdState", generateInitialQfdState);
-  const [settings, setSettings] = useState<Settings>(defaultSettings);
+  const [settings, setSettings] = useLocalStorage<Settings>("settings", defaultSettings);
   const contentRef = useRef<HTMLDivElement>(null);
 
   const [settingsOpen, setSettingsOpen] = useState(false);
