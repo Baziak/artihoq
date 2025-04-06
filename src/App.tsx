@@ -7,6 +7,8 @@ import Project, { generateInitialProject } from "./Hoq/Project";
 import { useRef, useState, SetStateAction, Dispatch } from "react";
 import SettingsDialog, { Settings } from "./SettingsDialog";
 import QfdState from "./Hoq/QfdState";
+import { NotificationProvider } from "./NotificationContext";
+import GlobalSnackbar from "./GlobalSnackbar";
 
 // TODO list:
 // - ctrl+z functionality
@@ -35,18 +37,30 @@ function App() {
     }));
 
   return (
-    <div className="App">
-      <AppMenuBar project={project} setProject={setProject} contentRef={contentRef} setSettingsOpen={setSettingsOpen} />
-      <Container ref={contentRef}>
-        <SettingsDialog
-          open={settingsOpen}
-          handleClose={() => setSettingsOpen(false)}
-          settings={project.settings}
-          setSettings={setSettings}
+    <NotificationProvider>
+      <div className="App">
+        <AppMenuBar
+          project={project}
+          setProject={setProject}
+          contentRef={contentRef}
+          setSettingsOpen={setSettingsOpen}
         />
-        <Hoq qfdState={project.qfdState} setQfdState={setQfdState} settings={project.settings} />
-      </Container>
-    </div>
+        <Container ref={contentRef}>
+          <SettingsDialog
+            open={settingsOpen}
+            handleClose={() => setSettingsOpen(false)}
+            settings={project.settings}
+            setSettings={setSettings}
+          />
+          <Hoq
+            qfdState={project.qfdState}
+            setQfdState={setQfdState}
+            settings={project.settings}
+          />
+        </Container>
+        <GlobalSnackbar />
+      </div>
+    </NotificationProvider>
   );
 }
 

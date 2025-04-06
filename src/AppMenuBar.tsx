@@ -17,6 +17,7 @@ import { useReactToPrint } from "react-to-print";
 import { defaultSettings } from "./SettingsDialog";
 import Project from "./Hoq/Project";
 import { Dispatch, SetStateAction } from "react";
+import { useNotification } from "./NotificationContext";
 
 interface AppMenuBarProps {
   contentRef: React.RefObject<HTMLDivElement>;
@@ -26,6 +27,7 @@ interface AppMenuBarProps {
 }
 
 const AppMenuBar = ({ contentRef, setSettingsOpen, project, setProject }: AppMenuBarProps) => {
+  const { showError, showInfo, showSuccess } = useNotification();
   const [openDrawer, setOpenDrawer] = useState(false);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
@@ -43,6 +45,7 @@ const AppMenuBar = ({ contentRef, setSettingsOpen, project, setProject }: AppMen
       return await fileHandle.getFile();
     } catch (e) {
       console.error(e);
+      showError("Error opening file.");
       return null;
     }
   }
@@ -55,7 +58,7 @@ const AppMenuBar = ({ contentRef, setSettingsOpen, project, setProject }: AppMen
       const writable = await handle.createWritable();
       await writable.write(blob);
       await writable.close();
-      return handle;
+      showSuccess("File saved successfully.");
     } catch (e) {
       console.error(e);
       return null;
@@ -86,9 +89,14 @@ const AppMenuBar = ({ contentRef, setSettingsOpen, project, setProject }: AppMen
             id: importedData.id || prevProject.id, // Use imported id if available, otherwise keep the old one
           }));
         }
+        showSuccess("File imported successfully.");
       } catch (error) {
         console.error("Error parsing or importing file:", error);
+        showError("Error parsing or importing file.");
       }
+      reader.onerror = () => {
+        showError("Error reading file.");
+      };
     };
     reader.readAsText(file);
   };
@@ -102,6 +110,7 @@ const AppMenuBar = ({ contentRef, setSettingsOpen, project, setProject }: AppMen
       ...prevProject,
       qfdState: generateInitialQfdState(),
     }));
+    showInfo("QFD state reset.");
   };
 
   const DrawerList = (
