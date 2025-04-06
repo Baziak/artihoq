@@ -22,6 +22,7 @@ function App() {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [currentFileName, setCurrentFileName] = useState<string | null>(null);
 
   const setQfdState: Dispatch<SetStateAction<QfdState>> = (newQfdState) => {
     setProject((prevProject) => ({
@@ -44,6 +45,8 @@ function App() {
           setProject={setProject}
           contentRef={contentRef}
           setSettingsOpen={setSettingsOpen}
+          currentFileName={currentFileName}
+          setCurrentFileName={setCurrentFileName}
         />
         <Container ref={contentRef}>
           <SettingsDialog

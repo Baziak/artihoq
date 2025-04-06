@@ -24,9 +24,18 @@ interface AppMenuBarProps {
   setSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   project: Project;
   setProject: Dispatch<SetStateAction<Project>>;
+  currentFileName: string | null;
+  setCurrentFileName: Dispatch<SetStateAction<string | null>>;
 }
 
-const AppMenuBar = ({ contentRef, setSettingsOpen, project, setProject }: AppMenuBarProps) => {
+const AppMenuBar = ({
+  contentRef,
+  setSettingsOpen,
+  project,
+  setProject,
+  currentFileName,
+  setCurrentFileName,
+}: AppMenuBarProps) => {
   const { showError, showInfo, showSuccess } = useNotification();
   const [openDrawer, setOpenDrawer] = useState(false);
   const reactToPrintFn = useReactToPrint({ contentRef });
@@ -37,7 +46,7 @@ const AppMenuBar = ({ contentRef, setSettingsOpen, project, setProject }: AppMen
 
   async function getFile() {
     try {
-      const [fileHandle] = await (window as any).showOpenFilePicker({
+      const [fileHandle] = await window.showOpenFilePicker({
         types: [{}],
         multiple: false,
       });
@@ -50,17 +59,20 @@ const AppMenuBar = ({ contentRef, setSettingsOpen, project, setProject }: AppMen
     }
   }
 
-  const saveFile = async (name: string, blob: Blob) => {
+  const saveFile = async (name: string | null, blob: Blob) => {
     try {
-      const handle = await (window as any).showSaveFilePicker({
-        suggestedName: name,
+      const suggestedName = name || project.id + ".json";
+      const handle = await window.showSaveFilePicker({
+        suggestedName: suggestedName,
       });
       const writable = await handle.createWritable();
       await writable.write(blob);
       await writable.close();
       showSuccess("File saved successfully.");
+      return handle.name;
     } catch (e) {
       console.error(e);
+      showError("Error saving file.");
       return null;
     }
   };
@@ -89,6 +101,7 @@ const AppMenuBar = ({ contentRef, setSettingsOpen, project, setProject }: AppMen
             id: importedData.id || prevProject.id, // Use imported id if available, otherwise keep the old one
           }));
         }
+        setCurrentFileName(file.name);
         showSuccess("File imported successfully.");
       } catch (error) {
         console.error("Error parsing or importing file:", error);
@@ -101,8 +114,11 @@ const AppMenuBar = ({ contentRef, setSettingsOpen, project, setProject }: AppMen
     reader.readAsText(file);
   };
 
-  const exportQfdState = () => {
-    saveFile(project.id + ".json", new Blob([JSON.stringify(project, null, 2)], { type: "application/json" }));
+  const exportQfdState = async () => {
+    const fileName = await saveFile(currentFileName, new Blob([JSON.stringify(project, null, 2)], { type: "application/json" }));
+    if (fileName) {
+      setCurrentFileName(fileName);
+    }
   };
 
   const resetQfdState = () => {
@@ -110,6 +126,7 @@ const AppMenuBar = ({ contentRef, setSettingsOpen, project, setProject }: AppMen
       ...prevProject,
       qfdState: generateInitialQfdState(),
     }));
+    setCurrentFileName(null);
     showInfo("QFD state reset.");
   };
 
