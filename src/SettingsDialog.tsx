@@ -97,8 +97,8 @@ export default function SettingsDialog({ open, handleClose, settings, setSetting
               value={settings.relationshipLevelControl}
               onChange={handleSettingsChange}
             >
-              <FormControlLabel value="select" control={<Radio />} label="Select" />
-              <FormControlLabel value="input" control={<Radio />} label="Input" />
+              <FormControlLabel value="select" control={<Radio />} label="Standard notation (None=0, Slight=1, Moderate=3, Strong=9)" />
+              <FormControlLabel value="input" control={<Radio />} label="Custom numeric value" />
             </RadioGroup>
           </FormControl>
 

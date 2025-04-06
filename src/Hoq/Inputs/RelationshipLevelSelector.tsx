@@ -9,13 +9,13 @@ import {
   Paper,
   Popper,
   SvgIcon,
+  Typography,
 } from "@mui/material";
 import React from "react";
 
 interface RelationshipLevelSelectorProps {
   selectedValue?: number;
-  onChange?: (newValue: RelationshipType) => void;
-  // onClose: React.MouseEventHandler<HTMLButtonElement>
+  onChange?: (newValue: number) => void;
 }
 
 const relationshipButtonStyling = {
@@ -44,8 +44,6 @@ export default function RelationshipLevelSelector({
     [RelationshipType.Moderate, { icon: <CircleOutlined />, text: "Moderate" }],
     [RelationshipType.Strong, { icon: <RadioButtonChecked />, text: "Strong" }],
   ]);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {};
 
   const [levelValue, setLevelValue] = React.useState(selectedValue);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
@@ -81,7 +79,7 @@ export default function RelationshipLevelSelector({
     selectedValue !== undefined && relationIconMap.has(selectedValue) ? (
       relationIconMap.get(selectedValue)?.icon
     ) : (
-      <>&nbsp;</>
+      <Typography>{selectedValue}</Typography>
     );
 
   return (
