@@ -30,6 +30,7 @@ const TransparentTextField = styled(TextField)(({ theme }) => ({
     },
     '& input': {
       textAlign: 'center',
+      fontSize: '0.875rem',
     },
   },
 }));

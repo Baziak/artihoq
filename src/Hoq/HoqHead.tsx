@@ -5,6 +5,7 @@ import HoqMeasurementCell from "./HoqMeasurementCell";
 import MeasureImprovementDirectionSelector from "./Inputs/MeasureImprovementDirectionSelector";
 import HoqTechnicalCorrelations from "./HoqTechnicalCorrelations";
 import { baseColor, cellStyling, controlCellStyling, highlightColor, verticalCellStyling } from "./styles";
+import { Settings } from "../SettingsDialog";
 
 interface HoqHeadProps {
   qfdState: QfdState;
@@ -13,6 +14,7 @@ interface HoqHeadProps {
   removeMeasureAt: (rowIndex: number) => void;
   setMeasureDirection: (index: number, newValue: number) => void;
   setTechnicalCorrelationValue: (modifiedRowIndex: number, modifiedColIndex: number, newValue: number) => void;
+  settings: Settings;
 }
 
 const HoqHead = ({
@@ -22,6 +24,7 @@ const HoqHead = ({
   removeMeasureAt,
   setMeasureDirection,
   setTechnicalCorrelationValue,
+  settings,
 }: HoqHeadProps) => {
   const measureCellRefs: React.RefObject<HTMLTableCellElement>[] = [];
   for (let i = 0; i < qfdState.measures.length; i++) {
@@ -45,6 +48,7 @@ const HoqHead = ({
             qfdState={qfdState}
             measureCellsWidths={measureCellsWidths}
             setTechnicalCorrelationValue={setTechnicalCorrelationValue}
+            settings={settings}
           />
         </TableCell>
       </TableRow>

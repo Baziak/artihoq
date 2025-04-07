@@ -19,7 +19,7 @@ interface TechnicalCorrelationSelectorProps {
 
 const buttonStyling = {
   minWidth: 0,
-  padding: 0
+  padding: 0,
 };
 
 export const enum TechnicalCorrelationType {
@@ -84,7 +84,7 @@ export default function TechnicalCorrelationSelector({
     <>
       <Button sx={{ ...buttonStyling }} onClick={showSelector}>
         {/* // TODO: better rotation way? */}
-        <span style={{transform: "rotate(45deg)", lineHeight: "1em"}}>{icon}</span> 
+        <span style={{ transform: "rotate(45deg)", lineHeight: "1em" }}>{icon}</span>
       </Button>
       <Popper open={open} anchorEl={anchorEl} placement="bottom-start">
         <Paper>

@@ -2,6 +2,9 @@ import { Box, Table, TableBody, TableCell, TableRow, Theme } from "@mui/material
 import QfdState from "./QfdState";
 import TechnicalCorrelationSelector from "./Inputs/TechnicalCorrelationSelector";
 import { baseColor } from "./styles";
+import { Settings } from "../SettingsDialog";
+import TechnicalCorrelationInput from "./Inputs/TechnicalCorrelationInput";
+import { TechnicalCorrelationType } from "./Inputs/TechnicalCorrelationSelector";
 
 const cellStyling = {
   padding: 1,
@@ -12,6 +15,7 @@ interface HoqTechnicalCorrelationsProps {
   qfdState: QfdState;
   measureCellsWidths: number[];
   setTechnicalCorrelationValue: (modifiedRowIndex: number, modifiedColIndex: number, newValue: number) => void;
+  settings: Settings;
 }
 
 // TODO highlight connected items on hover
@@ -20,8 +24,30 @@ const HoqTechnicalCorrelations = ({
   qfdState,
   measureCellsWidths,
   setTechnicalCorrelationValue,
+  settings,
 }: HoqTechnicalCorrelationsProps) => {
   const measureCellsTotalWidth = measureCellsWidths.reduce((sum, b) => sum + b, 0);
+
+  const TechnicalCorrelationControl = ({
+    initialValue,
+    onChange,
+  }: {
+    initialValue: number;
+    onChange: (newValue: number) => void;
+  }) => {
+    if (settings.correlationLevelControl === "input") {
+      return <TechnicalCorrelationInput initialValue={initialValue} onChange={onChange} />;
+    } else {
+      return (
+        <TechnicalCorrelationSelector
+          selectedValue={initialValue}
+          onChange={(newValue) => {
+            onChange(newValue);
+          }}
+        />
+      );
+    }
+  };
 
   return (
     <Box sx={{ height: measureCellsTotalWidth / 2 + "px", overflow: "hidden" }}>
@@ -38,37 +64,37 @@ const HoqTechnicalCorrelations = ({
         }}
       >
         <TableBody>
-        {qfdState.measures.map((firstMeasure, index1st) => (
-          <TableRow
-            key={firstMeasure.id}
-            sx={{
-              height: measureCellsWidths[index1st] / Math.SQRT2 - 2 + "px",
-            }}
-          >
-            {qfdState.measures.map((secondMeasure, index2nd) => (
-              <TableCell
-                key={secondMeasure.id}
-                sx={{
-                  ...cellStyling,
-                  textAlign: "center",
-                  padding: 0,
-                  width: measureCellsWidths[index2nd] / Math.SQRT2 - 2 + "px",
-                }}
-              >
-                {index1st < index2nd ? (
-                  <TechnicalCorrelationSelector
-                    selectedValue={qfdState.technicalCorrelations[index1st][index2nd - index1st - 1]}
-                    onChange={(newValue) => setTechnicalCorrelationValue(index1st, index2nd - index1st - 1, newValue)}
-                  />
-                ) : index2nd < index1st && index1st == 5 ? (
-                  String.fromCharCode("$)3#/".split("")[index2nd % 6].charCodeAt(0) + 32) + "."
-                ) : (
-                  ""
-                )}
-              </TableCell>
-            ))}
-          </TableRow>
-        ))}
+          {qfdState.measures.map((firstMeasure, index1st) => (
+            <TableRow
+              key={firstMeasure.id}
+              sx={{
+                height: measureCellsWidths[index1st] / Math.SQRT2 - 2 + "px",
+              }}
+            >
+              {qfdState.measures.map((secondMeasure, index2nd) => (
+                <TableCell
+                  key={secondMeasure.id}
+                  sx={{
+                    ...cellStyling,
+                    textAlign: "center",
+                    padding: 0,
+                    width: measureCellsWidths[index2nd] / Math.SQRT2 - 2 + "px",
+                  }}
+                >
+                  {index1st < index2nd ? (
+                    <TechnicalCorrelationControl
+                      initialValue={qfdState.technicalCorrelations[index1st][index2nd - index1st - 1]}
+                      onChange={(newValue) => setTechnicalCorrelationValue(index1st, index2nd - index1st - 1, newValue)}
+                    />
+                  ) : index2nd < index1st && index1st == 5 ? (
+                    String.fromCharCode("$)3#/".split("")[index2nd % 6].charCodeAt(0) + 32) + "."
+                  ) : (
+                    ""
+                  )}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </Box>

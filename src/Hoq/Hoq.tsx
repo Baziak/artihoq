@@ -187,6 +187,7 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
             removeMeasureAt={removeMeasureAt}
             setMeasureDirection={setMeasureDirection}
             setTechnicalCorrelationValue={setTechnicalCorrelationValue}
+            settings={settings}
           />
         </TableHead>
         <TableBody>
