@@ -28,7 +28,7 @@ const HoqImportanceRows = ({ qfdState }: HoqImportanceRowsProps) => {
   };
 
   for (let i = 0; i < qfdState.measures.length; i++) {
-    relativeImportance.push(calculateImportance(i));
+    relativeImportance.push(Math.round(calculateImportance(i) * 1000) / 1000);
   }
 
   const totalImportance = relativeImportance.reduce((a, b) => a + b, 0);

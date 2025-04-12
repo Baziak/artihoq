@@ -29,6 +29,7 @@ const TransparentTextField = styled(TextField)(({ theme }) => ({
       border: `2px solid ${theme.palette.primary.main}`,
     },
     '& input': {
+      padding: '0.3rem 0',
       textAlign: 'center',
       fontSize: '0.875rem',
     },
@@ -50,7 +51,7 @@ const HoqRows = ({
     const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newInputValue = e.target.value;
       // Allow only numbers and one decimal point
-      if (/^(\d+(\.\d*)?|\.\d+)?$/.test(newInputValue) || newInputValue === "") {
+      if (/^(\d+(\.\d*)?|\.\d*)?$/.test(newInputValue) || newInputValue === "") {
         setInputValue(newInputValue);
       }
     };
@@ -82,6 +83,43 @@ const HoqRows = ({
     }
   };
 
+  const ImportanceControl = ({ initialValue, onChange }: { initialValue: number; onChange: (newValue: number) => void }) => {
+    const [inputValue, setInputValue] = useState<string>(initialValue.toString());
+
+    const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newInputValue = e.target.value;
+      if (/^(\d+(\.\d*)?|\.\d*)?$/.test(newInputValue) || newInputValue === "") {
+        setInputValue(newInputValue);
+      }
+    };
+
+    const handleBlur = () => {
+      if (inputValue === "" || inputValue === ".") {
+        onChange(0);
+        setInputValue("0");
+      } else {
+        const parsedValue = parseFloat(inputValue);
+        if (!isNaN(parsedValue)) {
+          onChange(parsedValue);
+        }
+      }
+    };
+
+    if (settings.importanceLevelControl === "input") {
+      return (
+        <TransparentTextField
+          value={inputValue}
+          onChange={handleTextFieldChange}
+          onBlur={handleBlur}
+          size="small"
+          sx={{ width: "100%" }}
+        />
+      );
+    } else {
+      return <NumericSelector selectedValue={initialValue} onChange={onChange} />;
+    }
+  };
+
   return (
     <>
       {qfdState.relationshipValues.map((cellValues, rowIndex) => {
@@ -94,8 +132,8 @@ const HoqRows = ({
               onRemoveRequirement={() => removeRequirementAt(rowIndex)}
             />
             <TableCell sx={{ ...controlCellStyling, ...baseColor }}>
-              <NumericSelector
-                selectedValue={qfdState.requirements[rowIndex].importance}
+              <ImportanceControl
+                initialValue={qfdState.requirements[rowIndex].importance}
                 onChange={(newValue) => setRequirementImportance(rowIndex, newValue)}
               />
             </TableCell>

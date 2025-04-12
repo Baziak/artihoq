@@ -36,18 +36,23 @@ export interface SettingsDialogProps {
 export interface Settings {
   relationshipLevelControl: "select" | "input";
   correlationLevelControl: "select" | "input";
-  importanceControl: "select" | "input";
+  importanceLevelControl: "select" | "input";
   complexityControl: "select" | "input";
 }
 
 export const defaultSettings: Settings = {
   relationshipLevelControl: "select",
   correlationLevelControl: "select",
-  importanceControl: "select",
+  importanceLevelControl: "select",
   complexityControl: "select",
 };
 
-export default function SettingsDialog({ open, handleClose, settings, setSettings }: SettingsDialogProps) {
+export default function SettingsDialog({
+  open,
+  handleClose,
+  settings,
+  setSettings,
+}: SettingsDialogProps) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -82,54 +87,78 @@ export default function SettingsDialog({ open, handleClose, settings, setSetting
           }}
         >
           <FormControl>
-            <FormLabel id="relationship-level-radio-buttons-group-label">Relationship Level Control</FormLabel>
+            <FormLabel id="relationship-level-radio-buttons-group-label">
+              Relationship Level Control
+            </FormLabel>
             <RadioGroup
               aria-labelledby="relationship-level-radio-buttons-group-label"
               name="relationshipLevelControl"
               value={settings.relationshipLevelControl}
               onChange={handleSettingsChange}
             >
-              <FormControlLabel value="select" control={<Radio />} label="Standard notation (None=0, Slight=1, Moderate=3, Strong=9)" />
-              <FormControlLabel value="input" control={<Radio />} label="Custom numeric value" />
+              <FormControlLabel
+                value="select"
+                control={<Radio />}
+                label="Standard notation (None=0, Slight=1, Moderate=3, Strong=9)"
+              />
+              <FormControlLabel
+                value="input"
+                control={<Radio />}
+                label="Custom numeric value"
+              />
             </RadioGroup>
           </FormControl>
 
           <FormControl>
-            <FormLabel id="correlation-level-radio-buttons-group-label">Correlation Level Control</FormLabel>
+            <FormLabel id="correlation-level-radio-buttons-group-label">
+              Correlation Level Control
+            </FormLabel>
             <RadioGroup
               aria-labelledby="correlation-level-radio-buttons-group-label"
               name="correlationLevelControl"
               value={settings.correlationLevelControl}
               onChange={handleSettingsChange}
             >
-              <FormControlLabel value="select" control={<Radio />} label="Standard notation (None=0, Negative=-1, Positive=1)" />
+              <FormControlLabel
+                value="select"
+                control={<Radio />}
+                label="Standard notation (None=0, Negative=-1, Positive=1)"
+              />
+              <FormControlLabel
+                value="input"
+                control={<Radio />}
+                label="Custom numeric value"
+              />
+            </RadioGroup>
+          </FormControl>
+
+          <FormControl>
+            <FormLabel id="importance-control-radio-buttons-group-label">
+              User Importance Level Control
+            </FormLabel>
+            <RadioGroup
+              aria-labelledby="importance-control-radio-buttons-group-label"
+              name="importanceLevelControl"
+              value={settings.importanceLevelControl}
+              onChange={handleSettingsChange}
+            >
+              <FormControlLabel value="select" control={<Radio />} label="Select (1 to 5 grade)" />
               <FormControlLabel value="input" control={<Radio />} label="Custom numeric value" />
             </RadioGroup>
           </FormControl>
 
           <FormControl>
-            <FormLabel id="importance-control-radio-buttons-group-label">User Importance Control</FormLabel>
-            <RadioGroup
-              aria-labelledby="importance-control-radio-buttons-group-label"
-              name="importanceControl"
-              value={settings.importanceControl}
-              onChange={handleSettingsChange}
-            >
-              <FormControlLabel value="select" control={<Radio />} label="Select" />
-              <FormControlLabel value="input" control={<Radio />} label="Input" />
-            </RadioGroup>
-          </FormControl>
-
-          <FormControl>
-            <FormLabel id="complexity-control-radio-buttons-group-label">Measure Level Control</FormLabel>
+            <FormLabel id="complexity-control-radio-buttons-group-label">
+              Implementation Complexity Level Control
+            </FormLabel>
             <RadioGroup
               aria-labelledby="complexity-control-radio-buttons-group-label"
               name="complexityControl"
               value={settings.complexityControl}
               onChange={handleSettingsChange}
             >
-              <FormControlLabel value="select" control={<Radio />} label="Select" />
-              <FormControlLabel value="input" control={<Radio />} label="Input" />
+              <FormControlLabel value="select" control={<Radio />} label="Select (1 to 5 grade)" />
+              <FormControlLabel value="input" control={<Radio />} label="Custom numeric value" />
             </RadioGroup>
           </FormControl>
         </Box>

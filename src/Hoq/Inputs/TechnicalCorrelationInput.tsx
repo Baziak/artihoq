@@ -36,8 +36,8 @@ const TechnicalCorrelationInput = ({
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newInputValue = e.target.value;
-    // Allow only numbers and one decimal point
-    if (/^-?(\d+(\.\d*)?|\.\d+)?$/.test(newInputValue) || newInputValue === "") {
+    // Allow only numbers, one decimal point, and optional negative sign
+    if (/^-?(\d+(\.\d*)?|\.\d*)?$/.test(newInputValue) || newInputValue === "") {
       setInputValue(newInputValue);
     }
   };
