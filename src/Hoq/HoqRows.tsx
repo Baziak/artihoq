@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { TableCell, TableRow, TextField, styled } from "@mui/material";
+import React from "react";
+import { TableCell, TableRow } from "@mui/material";
 import QfdState from "./QfdState";
 import RelationshipLevelSelector from "./Inputs/RelationshipLevelSelector";
 import HoqRequirementCell from "./HoqRequirementCell";
-import NumericSelector from "./Inputs/NumericSelector";
 import { baseColor, controlCellStyling, focusColor, highlightColor } from "./styles";
 import { Settings } from "../SettingsDialog";
+import NumericTextField from "./Inputs/NumericTextField";
+import NumericSelector from "./Inputs/NumericSelector";
 
 interface HoqRowsProps {
   qfdState: QfdState;
@@ -17,25 +18,6 @@ interface HoqRowsProps {
   settings: Settings;
 }
 
-const TransparentTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      border: 'none',
-    },
-    '&:hover fieldset': {
-      border: '1px solid rgba(0, 0, 0, 0.23)',
-    },
-    '&.Mui-focused fieldset': {
-      border: `2px solid ${theme.palette.primary.main}`,
-    },
-    '& input': {
-      padding: '0.3rem 0',
-      textAlign: 'center',
-      fontSize: '0.875rem',
-    },
-  },
-}));
-
 const HoqRows = ({
   qfdState,
   setRequirementValue,
@@ -46,77 +28,18 @@ const HoqRows = ({
   settings,
 }: HoqRowsProps) => {
   const RelationshipLevelControl = ({ initialValue, onChange }: { initialValue: number; onChange: (newValue: number) => void }) => {
-    const [inputValue, setInputValue] = useState<string>(initialValue.toString());
-
-    const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newInputValue = e.target.value;
-      // Allow only numbers and one decimal point
-      if (/^(\d+(\.\d*)?|\.\d*)?$/.test(newInputValue) || newInputValue === "") {
-        setInputValue(newInputValue);
-      }
-    };
-
-    const handleBlur = () => {
-      if (inputValue === "" || inputValue === ".") {
-        onChange(0);
-        setInputValue("0");
-      } else {
-        const parsedValue = parseFloat(inputValue);
-        if (!isNaN(parsedValue)) {
-          onChange(parsedValue);
-        }
-      }
-    };
-
     if (settings.relationshipLevelControl === "input") {
-      return (
-        <TransparentTextField
-          value={inputValue}
-          onChange={handleTextFieldChange}
-          onBlur={handleBlur}
-          size="small"
-          sx={{ width: "100%" }}
-        />
-      );
+      return <NumericTextField value={initialValue} onChange={onChange} />;
     } else {
       return <RelationshipLevelSelector selectedValue={initialValue} onChange={onChange} />;
     }
   };
 
   const ImportanceControl = ({ initialValue, onChange }: { initialValue: number; onChange: (newValue: number) => void }) => {
-    const [inputValue, setInputValue] = useState<string>(initialValue.toString());
-
-    const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newInputValue = e.target.value;
-      if (/^(\d+(\.\d*)?|\.\d*)?$/.test(newInputValue) || newInputValue === "") {
-        setInputValue(newInputValue);
-      }
-    };
-
-    const handleBlur = () => {
-      if (inputValue === "" || inputValue === ".") {
-        onChange(0);
-        setInputValue("0");
-      } else {
-        const parsedValue = parseFloat(inputValue);
-        if (!isNaN(parsedValue)) {
-          onChange(parsedValue);
-        }
-      }
-    };
-
     if (settings.importanceLevelControl === "input") {
-      return (
-        <TransparentTextField
-          value={inputValue}
-          onChange={handleTextFieldChange}
-          onBlur={handleBlur}
-          size="small"
-          sx={{ width: "100%" }}
-        />
-      );
+      return <NumericTextField value={initialValue} onChange={onChange} />;
     } else {
-      return <NumericSelector selectedValue={initialValue} onChange={onChange} />;
+      return <NumericSelector selectedValue={initialValue} onChange={onChange} maxValue={5} />;
     }
   };
 
