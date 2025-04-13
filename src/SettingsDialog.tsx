@@ -9,10 +9,14 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -38,6 +42,8 @@ export interface Settings {
   correlationLevelControl: "select" | "input";
   importanceLevelControl: "select" | "input";
   complexityLevelControl: "select" | "input";
+  importanceMaxValue: number;
+  complexityMaxValue: number;
 }
 
 export const defaultSettings: Settings = {
@@ -45,6 +51,8 @@ export const defaultSettings: Settings = {
   correlationLevelControl: "select",
   importanceLevelControl: "select",
   complexityLevelControl: "select",
+  importanceMaxValue: 5,
+  complexityMaxValue: 5,
 };
 
 export default function SettingsDialog({
@@ -56,7 +64,7 @@ export default function SettingsDialog({
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const handleSettingsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSettingsChange = (event: SelectChangeEvent<"select" | "input">) => {
     const { name, value } = event.target;
     setSettings((prevSettings) => ({
       ...prevSettings,
@@ -64,11 +72,31 @@ export default function SettingsDialog({
     }));
   };
 
+  const handleImportanceMaxValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const parsedValue = parseInt(value);
+    if (!isNaN(parsedValue)) {
+      setSettings((prevSettings) => ({
+        ...prevSettings,
+        importanceMaxValue: parsedValue,
+      }));
+    }
+  };
+
+  const handleComplexityMaxValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const parsedValue = parseInt(value);
+    if (!isNaN(parsedValue)) {
+      setSettings((prevSettings) => ({
+        ...prevSettings,
+        complexityMaxValue: parsedValue,
+      }));
+    }
+  };
+
   return (
     <Dialog
       fullScreen={fullScreen}
-      fullWidth={true}
-      maxWidth="md"
       open={open}
       onClose={handleClose}
       TransitionComponent={Transition}
@@ -76,92 +104,128 @@ export default function SettingsDialog({
     >
       <DialogTitle id="settings-dialog-title">{"Settings"}</DialogTitle>
       <DialogContent>
-        <Box
-          noValidate
-          component="form"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            m: "auto",
-            width: "fit-content",
-          }}
-        >
-          <FormControl>
-            <FormLabel id="relationship-level-radio-buttons-group-label">
-              Relationship Level Control
-            </FormLabel>
-            <RadioGroup
-              aria-labelledby="relationship-level-radio-buttons-group-label"
-              name="relationshipLevelControl"
-              value={settings.relationshipLevelControl}
-              onChange={handleSettingsChange}
-            >
-              <FormControlLabel
-                value="select"
-                control={<Radio />}
-                label="Standard notation (None=0, Slight=1, Moderate=3, Strong=9)"
-              />
-              <FormControlLabel
-                value="input"
-                control={<Radio />}
-                label="Custom numeric value"
-              />
-            </RadioGroup>
-          </FormControl>
-
-          <FormControl>
-            <FormLabel id="correlation-level-radio-buttons-group-label">
-              Correlation Level Control
-            </FormLabel>
-            <RadioGroup
-              aria-labelledby="correlation-level-radio-buttons-group-label"
-              name="correlationLevelControl"
-              value={settings.correlationLevelControl}
-              onChange={handleSettingsChange}
-            >
-              <FormControlLabel
-                value="select"
-                control={<Radio />}
-                label="Standard notation (None=0, Negative=-1, Positive=1)"
-              />
-              <FormControlLabel
-                value="input"
-                control={<Radio />}
-                label="Custom numeric value"
-              />
-            </RadioGroup>
-          </FormControl>
-
-          <FormControl>
-            <FormLabel id="importance-control-radio-buttons-group-label">
-              User Importance Level Control
-            </FormLabel>
-            <RadioGroup
-              aria-labelledby="importance-control-radio-buttons-group-label"
-              name="importanceLevelControl"
-              value={settings.importanceLevelControl}
-              onChange={handleSettingsChange}
-            >
-              <FormControlLabel value="select" control={<Radio />} label="Select (1 to 5 grade)" />
-              <FormControlLabel value="input" control={<Radio />} label="Custom numeric value" />
-            </RadioGroup>
-          </FormControl>
-
-          <FormControl>
-            <FormLabel id="complexity-control-radio-buttons-group-label">
-              Implementation Complexity Level Control
-            </FormLabel>
-            <RadioGroup
-              aria-labelledby="complexity-control-radio-buttons-group-label"
-              name="complexityLevelControl"
-              value={settings.complexityLevelControl}
-              onChange={handleSettingsChange}
-            >
-              <FormControlLabel value="select" control={<Radio />} label="Select (1 to 5 grade)" />
-              <FormControlLabel value="input" control={<Radio />} label="Custom numeric value" />
-            </RadioGroup>
-          </FormControl>
-        </Box>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+            <Box>
+              <Typography variant="h6">Relationship Settings</Typography>
+              <FormControl fullWidth>
+                <InputLabel id="relationship-level-control-label">Notation</InputLabel>
+                <Select
+                  labelId="relationship-level-control-label"
+                  id="relationship-level-control"
+                  name="relationshipLevelControl"
+                  value={settings.relationshipLevelControl}
+                  label="Notation"
+                  onChange={handleSettingsChange}
+                  size="small"
+                >
+                  <MenuItem value="select">Standard notation</MenuItem>
+                  <MenuItem value="input">Custom numeric value</MenuItem>
+                </Select>
+                {settings.relationshipLevelControl === "select" && (
+                  <FormHelperText>
+                    <Typography variant="caption">
+                      (None=0, Slight=1, Moderate=3, Strong=9)
+                    </Typography>
+                  </FormHelperText>
+                )}
+                <Box mt={1}></Box>
+              </FormControl>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+            <Box>
+              <Typography variant="h6">Correlation Settings</Typography>
+              <FormControl fullWidth>
+                <InputLabel id="correlation-level-control-label">Notation</InputLabel>
+                <Select
+                  labelId="correlation-level-control-label"
+                  id="correlation-level-control"
+                  name="correlationLevelControl"
+                  value={settings.correlationLevelControl}
+                  label="Notation"
+                  onChange={handleSettingsChange}
+                  size="small"
+                >
+                  <MenuItem value="select">Standard notation</MenuItem>
+                  <MenuItem value="input">Custom numeric value</MenuItem>
+                </Select>
+                {settings.correlationLevelControl === "select" && (
+                  <FormHelperText>
+                    <Typography variant="caption">
+                      (None=0, Negative=-1, Positive=1)
+                    </Typography>
+                  </FormHelperText>
+                )}
+                <Box mt={1}></Box>
+              </FormControl>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+            <Box>
+              <Typography variant="h6">Importance Settings</Typography>
+              <FormControl fullWidth>
+                <InputLabel id="importance-level-control-label">Notation</InputLabel>
+                <Select
+                  labelId="importance-level-control-label"
+                  id="importance-level-control"
+                  name="importanceLevelControl"
+                  value={settings.importanceLevelControl}
+                  label="Notation"
+                  onChange={handleSettingsChange}
+                  size="small"
+                >
+                  <MenuItem value="select">Select (1 to N grade)</MenuItem>
+                  <MenuItem value="input">Custom numeric value</MenuItem>
+                </Select>
+                {settings.importanceLevelControl === "select" && (
+                  <Box mt={1}>
+                    <TextField
+                      label="Max Value"
+                      type="number"
+                      value={settings.importanceMaxValue}
+                      onChange={handleImportanceMaxValueChange}
+                      size="small"
+                      sx={{ width: "100%" }}
+                    />
+                  </Box>
+                )}
+              </FormControl>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6} sx={{ mb: 2 }}> {/* Added margin-bottom */}
+            <Box>
+              <Typography variant="h6">Complexity Settings</Typography>
+              <FormControl fullWidth>
+                <InputLabel id="complexity-level-control-label">Notation</InputLabel>
+                <Select
+                  labelId="complexity-level-control-label"
+                  id="complexity-level-control"
+                  name="complexityLevelControl"
+                  value={settings.complexityLevelControl}
+                  label="Notation"
+                  onChange={handleSettingsChange}
+                  size="small"
+                >
+                  <MenuItem value="select">Select (1 to N grade)</MenuItem>
+                  <MenuItem value="input">Custom numeric value</MenuItem>
+                </Select>
+                {settings.complexityLevelControl === "select" && (
+                  <Box mt={1}>
+                    <TextField
+                      label="Max Value"
+                      type="number"
+                      value={settings.complexityMaxValue}
+                      onChange={handleComplexityMaxValueChange}
+                      size="small"
+                      sx={{ width: "100%"}}
+                    />
+                  </Box>
+                )}
+              </FormControl>
+            </Box>
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleClose}>

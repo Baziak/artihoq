@@ -33,7 +33,7 @@ const HoqImplementationComplexityRow = ({
             <NumericSelector
               selectedValue={measure.complexity}
               onChange={(newValue) => setMeasureImplementationComplexity(index, newValue)}
-              maxValue={5}
+              maxValue={settings.complexityMaxValue}
             />
           )}
         </TableCell>

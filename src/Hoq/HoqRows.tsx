@@ -39,7 +39,7 @@ const HoqRows = ({
     if (settings.importanceLevelControl === "input") {
       return <NumericTextField value={initialValue} onChange={onChange} />;
     } else {
-      return <NumericSelector selectedValue={initialValue} onChange={onChange} maxValue={5} />;
+      return <NumericSelector selectedValue={initialValue} onChange={onChange} maxValue={settings.importanceMaxValue} />;
     }
   };
 
