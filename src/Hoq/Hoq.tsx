@@ -203,6 +203,7 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
           <HoqImplementationComplexityRow
             qfdState={qfdState}
             setMeasureImplementationComplexity={setMeasureImplementationComplexity}
+            settings={settings}
           />
           <HoqUnitsAndValuesRow qfdState={qfdState} setMeasureUnit={setMeasureUnit} />
           <HoqEngineerEstimationRows qfdState={qfdState} />

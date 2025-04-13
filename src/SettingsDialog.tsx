@@ -37,14 +37,14 @@ export interface Settings {
   relationshipLevelControl: "select" | "input";
   correlationLevelControl: "select" | "input";
   importanceLevelControl: "select" | "input";
-  complexityControl: "select" | "input";
+  complexityLevelControl: "select" | "input";
 }
 
 export const defaultSettings: Settings = {
   relationshipLevelControl: "select",
   correlationLevelControl: "select",
   importanceLevelControl: "select",
-  complexityControl: "select",
+  complexityLevelControl: "select",
 };
 
 export default function SettingsDialog({
@@ -153,8 +153,8 @@ export default function SettingsDialog({
             </FormLabel>
             <RadioGroup
               aria-labelledby="complexity-control-radio-buttons-group-label"
-              name="complexityControl"
-              value={settings.complexityControl}
+              name="complexityLevelControl"
+              value={settings.complexityLevelControl}
               onChange={handleSettingsChange}
             >
               <FormControlLabel value="select" control={<Radio />} label="Select (1 to 5 grade)" />
