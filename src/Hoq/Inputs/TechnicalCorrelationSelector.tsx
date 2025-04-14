@@ -9,12 +9,13 @@ import {
   Paper,
   Popper,
   SvgIcon,
+  Typography,
 } from "@mui/material";
 import React from "react";
 
 interface TechnicalCorrelationSelectorProps {
   selectedValue?: number;
-  onChange?: (newValue: TechnicalCorrelationType) => void;
+  onChange?: (newValue: number) => void;
 }
 
 const buttonStyling = {
@@ -37,17 +38,15 @@ export default function TechnicalCorrelationSelector({
     text: String;
   }
 
-  const directionIconMap = new Map<number, TechnicalCorrelationSelectorItem>([
+  const directionIconMap = new Map<TechnicalCorrelationType, TechnicalCorrelationSelectorItem>([
     [TechnicalCorrelationType.None, { icon: <SvgIcon />, text: "None" }],
     [TechnicalCorrelationType.Positive, { icon: <AddOutlined />, text: "Positive" }],
     [TechnicalCorrelationType.Negative, { icon: <RemoveOutlined />, text: "Negative" }],
   ]);
 
-  const [directionValue, setDirectionValue] = React.useState(selectedValue);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   const handleMenuItemClick = (event: React.MouseEvent<HTMLElement>, selectedValue: number) => {
-    setDirectionValue(selectedValue);
     setAnchorEl(null);
     if (onChange) {
       onChange(selectedValue);
@@ -73,18 +72,20 @@ export default function TechnicalCorrelationSelector({
 
   const open = Boolean(anchorEl);
 
-  const icon =
-    selectedValue !== undefined && directionIconMap.has(selectedValue) ? (
-      directionIconMap.get(selectedValue)?.icon
+  const valuePresentation =
+    selectedValue !== undefined && directionIconMap.has(selectedValue as TechnicalCorrelationType) ? (
+      directionIconMap.get(selectedValue as TechnicalCorrelationType)?.icon
     ) : (
-      <>&nbsp;</>
+      <Typography sx={{ fontSize: "0.75rem", minWidth: "1.5rem", lineHeight: "1.5rem", textAlign: "center" }}>
+        {selectedValue}
+      </Typography>
     );
 
   return (
     <>
       <Button sx={{ ...buttonStyling }} onClick={showSelector}>
         {/* // TODO: better rotation way? */}
-        <span style={{ transform: "rotate(45deg)", lineHeight: "1em" }}>{icon}</span>
+        <span style={{ transform: "rotate(45deg)", lineHeight: "1em" }}>{valuePresentation}</span>
       </Button>
       <Popper open={open} anchorEl={anchorEl} placement="bottom-start">
         <Paper>
@@ -95,11 +96,11 @@ export default function TechnicalCorrelationSelector({
               aria-labelledby="composition-button"
               onKeyDown={handleListKeyDown}
             >
-              {Array.from(directionIconMap.entries()).map(([index, item]) => (
+              {Array.from(directionIconMap.entries()).map(([key, item]) => (
                 <MenuItem
-                  key={index}
-                  selected={index === directionValue}
-                  onClick={(event) => handleMenuItemClick(event, index)}
+                  key={key}
+                  selected={key === selectedValue}
+                  onClick={(event) => handleMenuItemClick(event, key)}
                 >
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText>{item.text}</ListItemText>
