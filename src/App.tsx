@@ -3,7 +3,7 @@ import Hoq from "./Hoq/Hoq";
 import { Container } from "@mui/material";
 import AppMenuBar from "./AppMenuBar";
 import useLocalStorage from "./Hoq/useLocalStorage";
-import Project, { generateInitialProject } from "./Hoq/Project";
+import Project, { ProjectImpl } from "./Hoq/Project";
 import { useRef, useState, SetStateAction, Dispatch } from "react";
 import SettingsDialog, { Settings } from "./SettingsDialog";
 import QfdState from "./Hoq/QfdState";
@@ -18,7 +18,11 @@ import GlobalSnackbar from "./GlobalSnackbar";
 // - make a common selector component
 
 function App() {
-  const [project, setProject] = useLocalStorage<Project>("project", generateInitialProject);
+  const [rawProject, setProject] = useLocalStorage<Project>("project", () => new ProjectImpl());
+
+  // use ProjectImpl to filter and validate data from storage
+  const project = new ProjectImpl(rawProject);
+
   const contentRef = useRef<HTMLDivElement>(null);
 
   const [settingsOpen, setSettingsOpen] = useState(false);

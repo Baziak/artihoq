@@ -8,13 +8,34 @@ export interface Project {
   settings: Settings;
 }
 
+export class ProjectImpl implements Project {
+  version: number;
+  id: string;
+  qfdState: QfdState;
+  settings: Settings;
+
+  constructor(partialProject: Partial<Project> = {}) {
+    // TODO move initial data generation to some factory and let ProjectImpl be a clean class
+    const initialQfdState = generateInitialQfdState();
+    this.version = partialProject.version ?? 1;
+    this.id = partialProject.id ?? crypto.randomUUID();
+    this.qfdState = {
+      ...initialQfdState,
+      ...Object.fromEntries( // filter out redudant fields
+        Object.entries(partialProject.qfdState || {}).filter(([key]) => key in initialQfdState)
+      ),
+    };
+    this.settings = {
+      ...defaultSettings,
+      ...Object.fromEntries( // filter out redudant fields
+        Object.entries(partialProject.settings || {}).filter(([key]) => key in defaultSettings)
+      ),
+    };
+  }
+}
+
 export const generateInitialProject = (): Project => {
-  return {
-    version: 1,
-    id: crypto.randomUUID(),
-    qfdState: generateInitialQfdState(),
-    settings: defaultSettings,
-  };
+  return new ProjectImpl();
 };
 
 export default Project;
