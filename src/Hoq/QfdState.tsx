@@ -1,8 +1,10 @@
 export interface QfdState {
   requirements: Requirement[];
   measures: Measure[];
+  competitors: Competitor[];
   technicalCorrelations: number[][];
   relationshipValues: number[][];
+
 }
 
 export interface Requirement {
@@ -17,6 +19,11 @@ export interface Measure {
   direction: number;
   complexity: number;
   unit: string;
+}
+
+export interface Competitor {
+  id: string;
+  name: string;
 }
 
 // quickstart QFD template
@@ -91,6 +98,16 @@ export const generateInitialQfdState = (): QfdState => {
       [0, 0, 0],
       [0, 0],
       [0],
+    ],
+    competitors: [
+      {
+        id: crypto.randomUUID(),
+        name: "Competitor 1",
+      },
+      {
+        id: crypto.randomUUID(),
+        name: "Competitor 2",
+      },
     ],
     relationshipValues: [
       [0, 0, 0, 0, 0],
