@@ -3,6 +3,7 @@ import React from "react";
 
 interface VerticalInputFieldProps {
   value: string;
+  sx?: object;
   onChange?: (newValue: string) => void;
 }
 
@@ -10,6 +11,7 @@ interface VerticalInputFieldProps {
 
 export default function VerticalInputField({
   value,
+  sx,
   onChange,
 }: VerticalInputFieldProps): React.JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -36,7 +38,7 @@ export default function VerticalInputField({
   return (
     <>
       <ClickAwayListener onClickAway={handleClose}>
-        <Box sx={{ position: "relative" }}>
+        <Box sx={{ ...sx, position: "relative" }}>
           <Box
             aria-describedby={id}
             onClick={handleClick}

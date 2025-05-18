@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { TableCell, TableRow } from "@mui/material";
+import { Box, Button, TableCell, TableRow } from "@mui/material";
 import QfdState from "./QfdState";
 import HoqMeasurementCell from "./HoqMeasurementCell";
 import MeasureImprovementDirectionSelector from "./Inputs/MeasureImprovementDirectionSelector";
 import HoqTechnicalCorrelations from "./HoqTechnicalCorrelations";
 import { baseColor, cellStyling, controlCellStyling, highlightColor, verticalCellStyling } from "./styles";
 import { Settings } from "../SettingsDialog";
+import HoqCompetitorCell from "./HoqCompetitorCell";
 
 interface HoqHeadProps {
   qfdState: QfdState;
@@ -15,6 +16,9 @@ interface HoqHeadProps {
   setMeasureDirection: (index: number, newValue: number) => void;
   setTechnicalCorrelationValue: (modifiedRowIndex: number, modifiedColIndex: number, newValue: number) => void;
   settings: Settings;
+  setCompetitorValue: (modifiedRowIndex: number, newValue: string) => void;
+  addCompetitorAt: (rowIndex: number) => void;
+  removeCompetitorAt: (rowIndex: number) => void;
 }
 
 const HoqHead = ({
@@ -25,6 +29,9 @@ const HoqHead = ({
   setMeasureDirection,
   setTechnicalCorrelationValue,
   settings,
+  setCompetitorValue,
+  addCompetitorAt,
+  removeCompetitorAt,
 }: HoqHeadProps) => {
   const measureCellRefs: React.RefObject<HTMLTableCellElement>[] = [];
   for (let i = 0; i < qfdState.measures.length; i++) {
@@ -37,7 +44,9 @@ const HoqHead = ({
     setMeasureCellsWidths(measureCellRefs.map((ref) => (ref.current ? ref.current.offsetWidth : 0)));
   }, [qfdState.measures]);
 
-  const measureRowSpan = 3;
+  const MEASURE_ROW_SPAN = 3;
+  const USER_RATING_SCALE = 5;
+  const MAX_COMPETITORS = 5;
 
   return (
     <>
@@ -65,31 +74,63 @@ const HoqHead = ({
         ))}
       </TableRow>
       <TableRow>
-        <TableCell sx={{...cellStyling, ...baseColor}} rowSpan={measureRowSpan}></TableCell>
-        <TableCell sx={{...verticalCellStyling, ...baseColor}} rowSpan={measureRowSpan}>
+        <TableCell sx={{...cellStyling, ...baseColor}} rowSpan={MEASURE_ROW_SPAN}></TableCell>
+        <TableCell sx={{...verticalCellStyling, ...baseColor}} rowSpan={MEASURE_ROW_SPAN}>
           User Importance
         </TableCell>
         {qfdState.measures.map((measure, index) => (
           <HoqMeasurementCell
             key={measure.id}
             measure={measure}
-            rowSpan={measureRowSpan}
+            rowSpan={MEASURE_ROW_SPAN}
             onChange={(newValue) => setMeasureValue(index, newValue)}
             onAddMeasure={() => addMeasureAt(index + 1)}
             onRemoveMeasure={() => removeMeasureAt(index)}
           />
         ))}
-        <TableCell colSpan={5} sx={{ ...cellStyling, ...highlightColor, height: "1rem", textAlign: "center" }}>
+        <TableCell colSpan={USER_RATING_SCALE} sx={{ ...cellStyling, ...highlightColor, height: "1rem", textAlign: "center" }}>
           User Ratings
         </TableCell>
       </TableRow>
       <TableRow>
-        {[...Array(5)].map((index) => (
-          <TableCell key={index} sx={{...cellStyling, ...highlightColor}}></TableCell>
-        ))}
+        <TableCell
+          id="userRatings"
+          colSpan={USER_RATING_SCALE}
+          sx={{ ...cellStyling, ...highlightColor }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            {qfdState.competitors.length > 0 ? (
+              qfdState.competitors.map((competitor, index) => (
+                <Box
+                  key={competitor.id}
+                  sx={{
+                    height: "160px",
+                  }}
+                >
+                  <HoqCompetitorCell
+                    competitor={competitor}
+                    onChange={(newValue) => setCompetitorValue(index, newValue)}
+                    onAddCompetitor={() => addCompetitorAt(index + 1)}
+                    canAddMore={qfdState.competitors.length < MAX_COMPETITORS}
+                    onRemoveCompetitor={() => removeCompetitorAt(index)}
+                  />
+                </Box>
+              ))
+            ) : (
+              <Button
+                variant="text"
+                color="primary"
+                onClick={() => addCompetitorAt(0)}
+                disabled={qfdState.competitors.length >= MAX_COMPETITORS}
+              >
+                Add Competitor
+              </Button>
+            )}
+          </Box>
+        </TableCell>
       </TableRow>
       <TableRow>
-        {[...Array(5)].map((_, index) => (
+        {[...Array(USER_RATING_SCALE)].map((_, index) => (
           <TableCell key={index} sx={{ ...cellStyling, ...highlightColor, height: "1rem", textAlign: "center" }}>
             {index + 1}
           </TableCell>

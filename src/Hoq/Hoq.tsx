@@ -15,7 +15,7 @@ interface HoqProps {
   settings: Settings;
 }
 
-const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => { 
+const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
   const setMeasureValue = (modifiedRowIndex: number, newValue: string) => {
     const measures = qfdState.measures.map((measure, index) =>
       modifiedRowIndex == index ? { ...measure, name: newValue } : measure
@@ -171,6 +171,44 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
     setQfdState({ ...qfdState, measures });
   };
 
+  const setCompetitorValue = (modifiedRowIndex: number, newValue: string) => {
+    const competitors = qfdState.competitors.map((competitor, index) =>
+      modifiedRowIndex == index ? { ...competitor, name: newValue } : competitor
+    );
+
+    setQfdState({
+      ...qfdState,
+      competitors,
+    });
+  };
+
+  const addCompetitorAt = (index: number) => {
+    const newCompetitor = {
+      id: crypto.randomUUID(),
+      name: `Competitor ${qfdState.competitors.length + 1}`,
+    };
+
+    setQfdState({
+      ...qfdState,
+      competitors: [
+        ...qfdState.competitors.slice(0, index),
+        newCompetitor,
+        ...qfdState.competitors.slice(index),
+      ],
+    });
+  };
+
+  const removeCompetitorAt = (index: number) => {
+    setQfdState({
+      ...qfdState,
+      competitors: [
+        ...qfdState.competitors.slice(0, index),
+        ...qfdState.competitors.slice(index + 1),
+      ],
+    });
+  };
+
+
   return (
     <TableContainer
       sx={{
@@ -188,6 +226,9 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
             setMeasureDirection={setMeasureDirection}
             setTechnicalCorrelationValue={setTechnicalCorrelationValue}
             settings={settings}
+            setCompetitorValue={setCompetitorValue}
+            addCompetitorAt={addCompetitorAt}
+            removeCompetitorAt={removeCompetitorAt}
           />
         </TableHead>
         <TableBody>
