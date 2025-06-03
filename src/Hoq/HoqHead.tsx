@@ -111,6 +111,7 @@ const HoqHead = ({
                     competitor={competitor}
                     onChange={(newValue) => setCompetitorValue(index, newValue)}
                     onAddCompetitor={() => addCompetitorAt(index + 1)}
+                    iconIndex={index}
                     canAddMore={qfdState.competitors.length < MAX_COMPETITORS}
                     onRemoveCompetitor={() => removeCompetitorAt(index)}
                   />

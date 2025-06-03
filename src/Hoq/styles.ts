@@ -29,3 +29,11 @@ export const focusColor = {
 export const baseColor = {
   backgroundColor: "#FFF0ED",
 }
+
+export const competitorColors = [
+  '#FF6347', // Tomato
+  '#32CD32', // LimeGreen
+  '#4682B4', // SteelBlue
+  '#DA70D6', // Orchid
+  '#FFD700', // Gold
+];
