@@ -5,6 +5,7 @@ export interface QfdState {
   technicalCorrelations: number[][];
   relationshipValues: number[][];
   requirementCompetitorRatings: number[][];
+  technicalBenchmarkRatings: number[][];
 }
 
 export interface Requirement {
@@ -63,6 +64,9 @@ export const generateInitialQfdState = (): QfdState => {
       .fill(null)
       .map(() => Array(initialMeasures.length).fill(0)),
     requirementCompetitorRatings: Array(initialRequirements.length)
+      .fill(null)
+      .map(() => Array(initialCompetitors.length).fill(0)),
+    technicalBenchmarkRatings: Array(initialMeasures.length)
       .fill(null)
       .map(() => Array(initialCompetitors.length).fill(0)),
   };

@@ -111,6 +111,11 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
       relationshipValues: [
         ...qfdState.relationshipValues.map((row) => [...row.slice(0, index), 0, ...row.slice(index)]),
       ],
+      technicalBenchmarkRatings: [
+        ...qfdState.technicalBenchmarkRatings.slice(0, index),
+        Array(qfdState.competitors.length).fill(0),
+        ...qfdState.technicalBenchmarkRatings.slice(index),
+      ],
     });
   };
 
@@ -129,6 +134,10 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
       measures: [...qfdState.measures.slice(0, index), ...qfdState.measures.slice(index + 1)],
       technicalCorrelations,
       relationshipValues: qfdState.relationshipValues.map((row) => [...row.slice(0, index), ...row.slice(index + 1)]),
+      technicalBenchmarkRatings: [
+        ...qfdState.technicalBenchmarkRatings.slice(0, index),
+        ...qfdState.technicalBenchmarkRatings.slice(index + 1),
+      ],
     });
   };
 
@@ -267,6 +276,11 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
         ...qfdState.competitors.slice(index),
       ],
       requirementCompetitorRatings: updatedRequirementCompetitorRatings,
+      technicalBenchmarkRatings: qfdState.technicalBenchmarkRatings.map((row) => [
+        ...row.slice(0, index),
+        0,
+        ...row.slice(index),
+      ]),
     });
   };
 
@@ -280,6 +294,10 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
       requirementCompetitorRatings: qfdState.requirementCompetitorRatings.map(row => [
         ...row.slice(0, index),
         ...row.slice(index + 1)
+      ]),
+      technicalBenchmarkRatings: qfdState.technicalBenchmarkRatings.map((row) => [
+        ...row.slice(0, index),
+        ...row.slice(index + 1),
       ]),
     });
   };
@@ -307,6 +325,31 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
       return row;
     });
     setQfdState({ ...qfdState, requirementCompetitorRatings: newRatings });
+  };
+
+  const setTechnicalBenchmarkRating = (measureIndex: number, competitorIndex: number, rating: number) => {
+    const newRatings = qfdState.technicalBenchmarkRatings.map((row, mIndex) => {
+      if (mIndex === measureIndex) {
+        const updatedRow = [...row];
+
+        if (rating !== 0 && !settings.allowSameCompetitorRatings) {
+          const currentRatingOfCompetitor = updatedRow[competitorIndex];
+          const otherCompetitorIndex = updatedRow.findIndex(
+            (r, i) => r === rating && i !== competitorIndex
+          );
+
+          if (otherCompetitorIndex !== -1) {
+            // Another competitor has the new rating. Swap ratings.
+            updatedRow[otherCompetitorIndex] = currentRatingOfCompetitor;
+          }
+        }
+
+        updatedRow[competitorIndex] = rating;
+        return updatedRow;
+      }
+      return row;
+    });
+    setQfdState({ ...qfdState, technicalBenchmarkRatings: newRatings });
   };
 
   return (
@@ -363,7 +406,7 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
             settings={settings}
           />
           <HoqUnitsAndValuesRow qfdState={qfdState} setMeasureUnit={setMeasureUnit} />
-          <HoqTechBenchmarkRows qfdState={qfdState} />
+          <HoqTechBenchmarkRows qfdState={qfdState} setTechnicalBenchmarkRating={setTechnicalBenchmarkRating} />
           <HoqImportanceRows qfdState={qfdState} />
         </TableBody>
       </Table>
