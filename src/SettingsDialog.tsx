@@ -47,6 +47,7 @@ export interface Settings {
   importanceMaxValue: number;
   complexityMaxValue: number;
   allowSameCompetitorRatings: boolean;
+  allowSameCompetitorMeasureMark: boolean;
 }
 
 export const defaultSettings: Settings = {
@@ -56,7 +57,8 @@ export const defaultSettings: Settings = {
   complexityLevelControl: "select",
   importanceMaxValue: 5,
   complexityMaxValue: 5,
-  allowSameCompetitorRatings: false
+  allowSameCompetitorRatings: false,
+  allowSameCompetitorMeasureMark: false,
 };
 
 export default function SettingsDialog({
@@ -240,16 +242,28 @@ export default function SettingsDialog({
           <Grid item xs={12} md={6} sx={{ mb: 2 }}>
             <Box>
               <Typography variant="h6">Competitor Settings</Typography>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={settings.allowSameCompetitorRatings}
-                    onChange={handleCheckboxChange}
-                    name="allowSameCompetitorRatings"
-                  />
-                }
-                label="Allow same competitor ratings"
-              />
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={settings.allowSameCompetitorRatings}
+                      onChange={handleCheckboxChange}
+                      name="allowSameCompetitorRatings"
+                    />
+                  }
+                  label="Allow same competitor ratings for user requirements"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={settings.allowSameCompetitorMeasureMark}
+                      onChange={handleCheckboxChange}
+                      name="allowSameCompetitorMeasureMark"
+                    />
+                  }
+                  label="Allow same competitor ratings for technical measures"
+                />
+              </Box>
               <FormHelperText>
                 If unchecked, assigning a rating to a competitor will swap ratings if another competitor already has that
                 rating.

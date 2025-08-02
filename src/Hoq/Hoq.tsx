@@ -332,7 +332,7 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
       if (mIndex === measureIndex) {
         const updatedRow = [...row];
 
-        if (rating !== 0 && !settings.allowSameCompetitorRatings) {
+        if (rating !== 0 && !settings.allowSameCompetitorMeasureMark) {
           const currentRatingOfCompetitor = updatedRow[competitorIndex];
           const otherCompetitorIndex = updatedRow.findIndex(
             (r, i) => r === rating && i !== competitorIndex
