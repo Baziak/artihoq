@@ -20,6 +20,7 @@ interface HoqRequirementRatingCellProps {
   ratingValueForCell: number; 
   currentRatingsForThisRequirement: number[];
   onSetRating: (competitorIndex: number, newRatingForCompetitor: number) => void;
+  id?: string;
 }
 
 const HoqRequirementRatingCell = ({
@@ -27,6 +28,7 @@ const HoqRequirementRatingCell = ({
   ratingValueForCell,
   currentRatingsForThisRequirement,
   onSetRating,
+  id,
 }: HoqRequirementRatingCellProps) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -53,6 +55,7 @@ const HoqRequirementRatingCell = ({
 
   return (
     <TableCell
+      id={id}
       sx={{ ...controlCellStyling, ...highlightColor }}
     >
       <Button

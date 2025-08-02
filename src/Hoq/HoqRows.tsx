@@ -79,6 +79,7 @@ const HoqRows = ({
               const ratingValue = ratingColIndex + 1; // Rating value for this column (1-5)
               return (
                 <HoqRequirementRatingCell
+                  id={`rating-cell-${rowIndex}-${ratingValue}`}
                   key={`rating-${qfdState.requirements[rowIndex].id}-${ratingValue}`}
                   competitors={qfdState.competitors}
                   ratingValueForCell={ratingValue}

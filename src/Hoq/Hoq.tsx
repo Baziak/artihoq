@@ -1,5 +1,5 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import React from "react";
+import { Table, TableBody, TableContainer, TableHead } from "@mui/material";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import QfdState from "./QfdState";
 import HoqHead from "./HoqHead";
 import HoqRows from "./HoqRows";
@@ -16,6 +16,62 @@ interface HoqProps {
 }
 
 const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+  const [baseline, setBaseline] = useState<React.ReactNode>(null);
+ 
+  const calculateBaseline = useCallback(() => {
+    if (!tableContainerRef.current) {
+      return;
+    }
+ 
+    const competitor1Ratings = qfdState.requirementCompetitorRatings.map((row) => row?.[0] || 0);
+    const points: { x: number; y: number; rowIndex: number }[] = [];
+ 
+    competitor1Ratings.forEach((rating, index) => {
+      if (rating > 0) {
+        const cell = tableContainerRef.current?.querySelector(`#rating-cell-${index}-${rating}`);
+        if (cell instanceof HTMLElement) {
+          points.push({
+            x: cell.offsetLeft + cell.clientWidth / 2,
+            y: cell.offsetTop + cell.clientHeight / 2,
+            rowIndex: index,
+          });
+        }
+      }
+    });
+ 
+    const lineSegments: React.ReactNode[] = [];
+    for (let i = 0; i < points.length - 1; i++) {
+      const p1 = points[i];
+      const p2 = points[i + 1];
+      // Only connect adjacent rows
+      if (p2.rowIndex === p1.rowIndex + 1) {
+        lineSegments.push(
+          <line key={`line-${i}`} x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} stroke="black" strokeWidth="1.5" />
+        );
+      }
+    }
+ 
+    if (lineSegments.length > 0) {
+      setBaseline(<g>{lineSegments}</g>);
+    } else {
+      setBaseline(null);
+    }
+  }, [qfdState.requirementCompetitorRatings]);
+ 
+  useEffect(() => {
+    calculateBaseline();
+    const container = tableContainerRef.current;
+    if (!container) return;
+ 
+    const resizeObserver = new ResizeObserver(calculateBaseline);
+    resizeObserver.observe(container);
+ 
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [calculateBaseline]);
+
   const setMeasureValue = (modifiedRowIndex: number, newValue: string) => {
     const measures = qfdState.measures.map((measure, index) =>
       modifiedRowIndex == index ? { ...measure, name: newValue } : measure
@@ -256,10 +312,25 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
   return (
     <TableContainer
       sx={{
+        position: "relative",
         width: "max-content",
-        margin: "1em 0"
+        margin: "1em 0",
       }}
+      ref={tableContainerRef}
     >
+      <svg
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      >
+        {baseline}
+      </svg>
       <Table>
         <TableHead>
           <HoqHead
