@@ -8,6 +8,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Checkbox,
+  FormControlLabel,
   FormControl,
   FormHelperText,
   Grid,
@@ -44,6 +46,7 @@ export interface Settings {
   complexityLevelControl: "select" | "input";
   importanceMaxValue: number;
   complexityMaxValue: number;
+  allowSameCompetitorRatings: boolean;
 }
 
 export const defaultSettings: Settings = {
@@ -53,6 +56,7 @@ export const defaultSettings: Settings = {
   complexityLevelControl: "select",
   importanceMaxValue: 5,
   complexityMaxValue: 5,
+  allowSameCompetitorRatings: false
 };
 
 export default function SettingsDialog({
@@ -69,6 +73,14 @@ export default function SettingsDialog({
     setSettings((prevSettings) => ({
       ...prevSettings,
       [name]: value,
+    }));
+  };
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+    setSettings((prevSettings) => ({
+      ...prevSettings,
+      [name]: checked,
     }));
   };
 
@@ -223,6 +235,25 @@ export default function SettingsDialog({
                   </Box>
                 )}
               </FormControl>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+            <Box>
+              <Typography variant="h6">Competitor Settings</Typography>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={settings.allowSameCompetitorRatings}
+                    onChange={handleCheckboxChange}
+                    name="allowSameCompetitorRatings"
+                  />
+                }
+                label="Allow same competitor ratings"
+              />
+              <FormHelperText>
+                If unchecked, assigning a rating to a competitor will swap ratings if another competitor already has that
+                rating.
+              </FormHelperText>
             </Box>
           </Grid>
         </Grid>

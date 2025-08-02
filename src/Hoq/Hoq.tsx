@@ -232,6 +232,19 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
     const newRatings = qfdState.requirementCompetitorRatings.map((row, rIndex) => {
       if (rIndex === requirementIndex) {
         const updatedRow = [...row];
+
+        if (rating !== 0 && !settings.allowSameCompetitorRatings) {
+          const currentRatingOfCompetitor = updatedRow[competitorIndex];
+          const otherCompetitorIndex = updatedRow.findIndex(
+            (r, i) => r === rating && i !== competitorIndex
+          );
+
+          if (otherCompetitorIndex !== -1) {
+            // Another competitor has the new rating. Swap ratings.
+            updatedRow[otherCompetitorIndex] = currentRatingOfCompetitor;
+          }
+        }
+
         updatedRow[competitorIndex] = rating;
         return updatedRow;
       }
