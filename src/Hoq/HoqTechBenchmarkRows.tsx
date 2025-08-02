@@ -3,30 +3,30 @@ import { TableCell, TableRow, Theme } from "@mui/material";
 import QfdState from "./QfdState";
 import { cellStyling, controlCellStyling, highlightColor } from "./styles";
 
-interface HoqEngineerEstimationRowsProps {
+interface HoqTechBenchmarkRowsProps {
   qfdState: QfdState;
 }
 
-const estimationStyling = {
+const techBenckmarkStyling = {
   ...controlCellStyling,
   ...highlightColor,
   height: "40px",
 };
 
-const HoqEngineerEstimationRows = ({ qfdState }: HoqEngineerEstimationRowsProps) => {
+const HoqTechBenchmarkRows = ({ qfdState }: HoqTechBenchmarkRowsProps) => {
   return (
     <>
       {[...Array(5)].map((_, index) => (
         <TableRow key={index}>
           {index === 0 ? (
             <TableCell colSpan={2} rowSpan={5} sx={{...cellStyling, ...highlightColor}}>
-              Engineer Estimation
+              Technical Benchmark
             </TableCell>
           ) : (
             ""
           )}
           {qfdState.measures.map((measure) => (
-            <TableCell key={measure.id} sx={estimationStyling}></TableCell>
+            <TableCell key={measure.id} sx={techBenckmarkStyling}></TableCell>
           ))}
         </TableRow>
       ))}
@@ -34,4 +34,4 @@ const HoqEngineerEstimationRows = ({ qfdState }: HoqEngineerEstimationRowsProps)
   );
 };
 
-export default HoqEngineerEstimationRows;
+export default HoqTechBenchmarkRows;

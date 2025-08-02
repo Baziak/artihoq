@@ -5,7 +5,7 @@ import HoqHead from "./HoqHead";
 import HoqRows from "./HoqRows";
 import HoqImplementationComplexityRow from "./HoqImplementationComplexityRow";
 import HoqUnitsAndValuesRow from "./HoqUnitsAndValuesRow";
-import HoqEngineerEstimationRows from "./HoqEngineerEstimationRows";
+import HoqTechBenchmarkRows from "./HoqTechBenchmarkRows";
 import HoqImportanceRows from "./HoqImportanceRows";
 import { Settings } from "../SettingsDialog";
 
@@ -363,7 +363,7 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
             settings={settings}
           />
           <HoqUnitsAndValuesRow qfdState={qfdState} setMeasureUnit={setMeasureUnit} />
-          <HoqEngineerEstimationRows qfdState={qfdState} />
+          <HoqTechBenchmarkRows qfdState={qfdState} />
           <HoqImportanceRows qfdState={qfdState} />
         </TableBody>
       </Table>
