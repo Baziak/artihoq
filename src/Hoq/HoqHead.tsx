@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { Box, Button, TableCell, TableRow } from "@mui/material";
 import QfdState from "./QfdState";
 import HoqMeasurementCell from "./HoqMeasurementCell";
@@ -40,7 +40,7 @@ const HoqHead = ({
 
   const [measureCellsWidths, setMeasureCellsWidths] = useState<number[]>(Array(qfdState.measures.length).fill(0));
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setMeasureCellsWidths(measureCellRefs.map((ref) => (ref.current ? ref.current.offsetWidth : 0)));
   }, [qfdState.measures]);
 
