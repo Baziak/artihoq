@@ -3,14 +3,8 @@ import { Box, ButtonGroup, IconButton, Paper, Popper } from "@mui/material";
 import { Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 import { Competitor } from "./QfdState";
 import VerticalInputField from "./Inputs/VerticalInputField";
-import { cellStyling, highlightColor, competitorColors } from "./styles";
-import CircleIcon from '@mui/icons-material/Circle';
-import StarIcon from '@mui/icons-material/Star';
-import SquareIcon from '@mui/icons-material/Square';
-import PentagonIcon from '@mui/icons-material/Pentagon';
-import FilledTriangleIcon from "./Inputs/FilledTriangleIcon";
-
-const competitorIcons = [<CircleIcon />, <FilledTriangleIcon />, <SquareIcon />, <PentagonIcon />, <StarIcon />];
+import { cellStyling, highlightColor } from "./styles";
+import { getCompetitorIconElement } from "./competitorUtils";
 
 const competitorCellStyling = {
   ...cellStyling,
@@ -57,13 +51,12 @@ const HoqCompetitorCell = ({
     onRemoveCompetitor();
   };
 
-  const SelectedIcon = competitorIcons[iconIndex % competitorIcons.length];
-  const iconColor = competitorColors[iconIndex % competitorColors.length];
+  const competitorIconDisplay = getCompetitorIconElement(iconIndex, {}, { transform: 'rotate(180deg)' });
 
   return (
     <Box sx={{ ...competitorCellStyling, ...sx, display: 'flex', alignItems: 'center' }} 
         onMouseOver={handleHoverToolbarOpen} onMouseLeave={handleHoverToolbarClose}>
-      {React.cloneElement(SelectedIcon, { sx: { color: iconColor, transform: 'rotate(180deg)' } })}
+      {competitorIconDisplay}
       <VerticalInputField sx={{ height: "120px", textAlign: "center" }} value={competitor.name} onChange={(newValue) => onChange(newValue)} />
       <Popper
         open={Boolean(hoverBarAnchorEl)}

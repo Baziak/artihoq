@@ -7,6 +7,7 @@ import { baseColor, controlCellStyling, focusColor, highlightColor } from "./sty
 import { Settings } from "../SettingsDialog";
 import NumericTextField from "./Inputs/NumericTextField";
 import NumericSelector from "./Inputs/NumericSelector";
+import HoqRequirementRatingCell from "./HoqRequirementRatingCell";
 
 interface HoqRowsProps {
   qfdState: QfdState;
@@ -16,6 +17,7 @@ interface HoqRowsProps {
   setRequirementImportance: (modifiedRowIndex: number, newValue: number) => void;
   removeRequirementAt: (rowIndex: number) => void;
   settings: Settings;
+  setRequirementCompetitorRating: (requirementIndex: number, competitorIndex: number, rating: number) => void;
 }
 
 const HoqRows = ({
@@ -26,6 +28,7 @@ const HoqRows = ({
   setRequirementImportance,
   removeRequirementAt,
   settings,
+  setRequirementCompetitorRating,
 }: HoqRowsProps) => {
   const RelationshipLevelControl = ({ initialValue, onChange }: { initialValue: number; onChange: (newValue: number) => void }) => {
     if (settings.relationshipLevelControl === "input") {
@@ -71,9 +74,21 @@ const HoqRows = ({
                 </TableCell>
               );
             })}
-            {[...Array(5)].map((_, index) => (
-              <TableCell key={index} sx={{ ...controlCellStyling, ...highlightColor }}></TableCell>
-            ))}
+            {/* User Ratings Cells for Competitors */}
+            {[...Array(5)].map((_, ratingColIndex) => {
+              const ratingValue = ratingColIndex + 1; // Rating value for this column (1-5)
+              return (
+                <HoqRequirementRatingCell
+                  key={`rating-${qfdState.requirements[rowIndex].id}-${ratingValue}`}
+                  competitors={qfdState.competitors}
+                  ratingValueForCell={ratingValue}
+                  currentRatingsForThisRequirement={qfdState.requirementCompetitorRatings[rowIndex] || []}
+                  onSetRating={(competitorIndex, newRatingForCompetitor) => {
+                    setRequirementCompetitorRating(rowIndex, competitorIndex, newRatingForCompetitor);
+                  }}
+                />
+              );
+            })}
           </TableRow>
         );
       })}

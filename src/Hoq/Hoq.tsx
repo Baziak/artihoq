@@ -124,6 +124,7 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
       name: `Requirement ${qfdState.requirements.length + 1}`,
       importance: 1,
     };
+    const newRequirementCompetitorRatingsRow = Array(qfdState.competitors.length).fill(0);
 
     setQfdState({
       ...qfdState,
@@ -132,6 +133,11 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
         ...qfdState.relationshipValues.slice(0, index),
         Array(qfdState.measures.length).fill(0),
         ...qfdState.relationshipValues.slice(index),
+      ],
+      requirementCompetitorRatings: [
+        ...qfdState.requirementCompetitorRatings.slice(0, index),
+        newRequirementCompetitorRatingsRow,
+        ...qfdState.requirementCompetitorRatings.slice(index),
       ],
     });
   };
@@ -143,6 +149,10 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
       relationshipValues: [
         ...qfdState.relationshipValues.slice(0, index),
         ...qfdState.relationshipValues.slice(index + 1),
+      ],
+      requirementCompetitorRatings: [
+        ...qfdState.requirementCompetitorRatings.slice(0, index),
+        ...qfdState.requirementCompetitorRatings.slice(index + 1),
       ],
     });
   };
@@ -187,6 +197,11 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
       id: crypto.randomUUID(),
       name: `Competitor ${qfdState.competitors.length + 1}`,
     };
+    const updatedRequirementCompetitorRatings = qfdState.requirementCompetitorRatings.map(row => [
+      ...row.slice(0, index),
+      0,
+      ...row.slice(index)
+    ]);
 
     setQfdState({
       ...qfdState,
@@ -195,6 +210,7 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
         newCompetitor,
         ...qfdState.competitors.slice(index),
       ],
+      requirementCompetitorRatings: updatedRequirementCompetitorRatings,
     });
   };
 
@@ -205,9 +221,24 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
         ...qfdState.competitors.slice(0, index),
         ...qfdState.competitors.slice(index + 1),
       ],
+      requirementCompetitorRatings: qfdState.requirementCompetitorRatings.map(row => [
+        ...row.slice(0, index),
+        ...row.slice(index + 1)
+      ]),
     });
   };
 
+  const setRequirementCompetitorRating = (requirementIndex: number, competitorIndex: number, rating: number) => {
+    const newRatings = qfdState.requirementCompetitorRatings.map((row, rIndex) => {
+      if (rIndex === requirementIndex) {
+        const updatedRow = [...row];
+        updatedRow[competitorIndex] = rating;
+        return updatedRow;
+      }
+      return row;
+    });
+    setQfdState({ ...qfdState, requirementCompetitorRatings: newRatings });
+  };
 
   return (
     <TableContainer
@@ -240,6 +271,7 @@ const Hoq = ({ qfdState, setQfdState, settings }: HoqProps) => {
             setRequirementImportance={setRequirementImportance}
             setRelationshipValue={setRelationshipValue}
             settings={settings}
+            setRequirementCompetitorRating={setRequirementCompetitorRating}
           />
           <HoqImplementationComplexityRow
             qfdState={qfdState}
