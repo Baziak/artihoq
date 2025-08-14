@@ -26,10 +26,10 @@ npm install
 
 3. Start the development server:
 ```bash
-npm start
+npm run dev
 ```
 
-5. Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
+5. Open your browser and navigate to [http://localhost:5173](http://localhost:5173).
 
 ## Usage
 1. Launch the application.
@@ -38,12 +38,15 @@ npm start
 4. Analyze the calculated priorities and export the results as JSON or print for documentation.
 
 ## Roadmap
-* Implement competitor analysis part.
+* ~~Implement competitor analysis part.~~
+* ~~Add settings to customize HoQ.~~
+* ~~Switch to using Vite instead of CRA.~~
+* Add tests!
+* Use Zustand for state management.
+* Implement customer requirements grouping.
 * Add theming support.
 * Add support for multi-language localization.
 * Add Undo/Redo functionality.
-* Add requirement grouping.
-* Add settings to customize HoQ.
 * Refactor to use styled components, and code cleanup.
 
 ## License
